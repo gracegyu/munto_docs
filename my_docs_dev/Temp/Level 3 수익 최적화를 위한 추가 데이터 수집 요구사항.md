@@ -18,11 +18,11 @@
 
 데이팅 추천 시스템은 18개월에 걸쳐 단계적으로 발전하며, 각 단계마다 **추가** 로그가 필요합니다:
 
-- **Phase 1 (Month 0-3)**: Level 1 전통적 박스 시스템 → 기본 로그
-- **Phase 2 (Month 3-9)**: Level 2 AI 예측 모델 추가 → Level 2 로그 추가
-- **Phase 3 (Month 9-12)**: Level 2 검증 및 적용
-- **Phase 4 (Month 12-18)**: Level 3 수익 최적화 추가 → Level 3 로그 추가
-- **Phase 5 (Month 18+)**: 지속 개선
+- **Phase 1** (Month 0-3): Level 1 전통적 박스 시스템 → 기본 로그
+- **Phase 2** (Month 3-9): Level 2 AI 예측 모델 추가 → Level 2 로그 추가
+- **Phase 3** (Month 9-12): Level 2 검증 및 적용
+- **Phase 4** (Month 12-18): Level 3 수익 최적화 추가 → Level 3 로그 추가
+- **Phase 5** (Month 18+): 지속 개선
 
 **로그는 누적됩니다**: Phase 4에서는 기본 로그 + Level 2 로그 + Level 3 로그를 **모두** 남깁니다.
 
@@ -76,9 +76,9 @@ Phase 4-5 (Month 12+):
 
 **요약**:
 
-- **Phase 1 (Month 0-3)**: 기본 로그만 (9개 이벤트 타입)
-- **Phase 2-3 (Month 3-12)**: 기본 + Level 2 로그 (11개 이벤트 타입)
-- **Phase 4+ (Month 12+)**: 기본 + Level 2 + Level 3 로그 (14개 이벤트 타입)
+- **Phase 1** (Month 0-3): 기본 로그만 (9개 이벤트 타입)
+- **Phase 2-3** (Month 3-12): 기본 + Level 2 로그 (11개 이벤트 타입)
+- **Phase 4+** (Month 12+): 기본 + Level 2 + Level 3 로그 (14개 이벤트 타입)
 
 **로그는 누적**: Phase 4에서는 1, 2, 3 모든 로그를 남깁니다.
 
@@ -213,10 +213,10 @@ Level 3 수익 최적화 모델(Contextual Bandit)은 **전략 선택**과 **장
 
 Level 3 적용 시 **추가**되는 로그:
 
-1. **EXPOSURE (노출 이벤트)**: 전략 정보, Context 벡터
-2. **REWARD_AGGREGATION (보상 집계)**: 7일간 총 수익
-3. **STRATEGY_PERFORMANCE (전략 성과)**: 전략별 누적 성과
-4. **CONTEXT_SNAPSHOT (상태 스냅샷)**: Context 벡터 상세
+1. **EXPOSURE** (노출 이벤트): 전략 정보, Context 벡터
+2. **REWARD_AGGREGATION** (보상 집계): 7일간 총 수익
+3. **STRATEGY_PERFORMANCE** (전략 성과): 전략별 누적 성과
+4. **CONTEXT_SNAPSHOT** (상태 스냅샷): Context 벡터 상세
 
 ---
 
@@ -742,7 +742,7 @@ Context 벡터 생성 시:
 
 ### 7.1 배치 작업
 
-**일일 배치 (매일 자정)**:
+**일일 배치** (매일 자정):
 
 ```python
 # 7일 전 노출 이벤트 보상 계산
@@ -769,7 +769,7 @@ def daily_reward_computation():
             )
 ```
 
-**주간 배치 (매주 일요일)**:
+**주간 배치** (매주 일요일):
 
 ```python
 # 모델 재학습
@@ -973,7 +973,7 @@ def validate_reward(reward):
 
 ### 기존 시스템에서 추가 시
 
-**Month 12-15: Level 3 로그 수집 (학습 전)**
+**Month 12-15: Level 3 로그 수집** (학습 전)
 
 ```
 Week 1-2:
@@ -1020,16 +1020,16 @@ Week 7+:
 
 ### 추가 필요 사항 요약
 
-**필수 (Phase 4, Month 12-15)**:
+**필수** (Phase 4, Month 12-15):
 
 1. EXPOSURE 이벤트 로깅
 2. Context 벡터 저장
 3. 전략 정보 기록
 4. 7일 보상 계산
 
-**권장 (Phase 4-5)**: 5. 전략별 성과 추적 6. Context 스냅샷 (디버깅용)
+**권장** (Phase 4-5): 5. 전략별 성과 추적 6. Context 스냅샷 (디버깅용)
 
-**선택 (Phase 5+)**: 7. 상세 분석 로그 8. 실시간 집계
+**선택** (Phase 5+): 7. 상세 분석 로그 8. 실시간 집계
 
 ### 최종 권장
 
@@ -1039,7 +1039,7 @@ Week 7+:
 - 추천 API에서 EXPOSURE 이벤트 로깅
 - 일일 배치로 7일 보상 계산
 
-**2-3개월 데이터 축적 후 (Month 15)**:
+**2-3개월 데이터 축적 후** (Month 15):
 
 - Level 3 Bandit 모델 학습 시작
 - 주간 자동 재학습 파이프라인 구축
