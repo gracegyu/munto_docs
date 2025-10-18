@@ -1,0 +1,34 @@
+{
+  "theme": "Dracula",
+  "selectedAuthType": "gemini-api-key",
+  "preferredEditor": "vscode",
+  "mcpServers": {
+    "Figma MCP": {
+      "command": "npx",
+      "args": ["-y", "figma-developer-mcp", "--figma-api-key=YOUR_FIGMA_API_KEY", "--stdio"]
+    },
+    "GitHub": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_GITHUB_PERSONAL_ACCESS_TOKEN"
+      }
+    },
+    "Jira": {
+      "command": "npx",
+      "args": ["-y", "@aashari/mcp-server-atlassian-jira"],
+      "env": {
+        "ATLASSIAN_SITE_NAME": "munto",
+        "ATLASSIAN_USER_EMAIL": "YOUR_EMAIL@munto.kr",
+        "ATLASSIAN_API_TOKEN": "YOUR_ATLASSIAN_API_TOKEN"
+      }
+    },
+    "Notion": {
+      "command": "npx",
+      "args": ["-y", "@suekou/mcp-notion-server"],
+      "env": {
+        "NOTION_API_TOKEN": "YOUR_NOTION_API_TOKEN"
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# MCP config with real tokens - use .template and copy locally
+muntoMCP/**/.claud.json
+muntoMCP/**/mcp.json
+muntoMCP/**/settings.json

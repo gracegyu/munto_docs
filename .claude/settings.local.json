@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Notion__notion_retrieve_block_children",
+      "mcp__Notion__notion_retrieve_page"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
