@@ -1,10 +1,3 @@
-# download - test
-
-> 출처: https://www.notion.so/download-test-28fe2bc7639d81d2a65eea21b03ab04c
-> 다운로드 날짜: 2025-10-17
-
----
-
 # Notion 문서 업로드
 
 이 명령어는 프로젝트의 마크다운 문서를 회사 Notion 워크스페이스에 자동으로 업로드합니다.
