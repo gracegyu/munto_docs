@@ -41,9 +41,9 @@
 
 체험단 SRS 피드백 주신 내용 토대로 v1.0.1 작성했습니다.
 
-금주 금요일(4/10)까지 리뷰 부탁드립니다.
+차주 월요일(4/13)까지 리뷰 부탁드립니다.
 
-Notion—The AI workspace that works for you. 
+https://www.notion.so/munto/SRS-336e2bc7639d8069ba3edbb820c7f72d?source=copy_link 
 
 <주요 변경 사항>
 
@@ -51,3 +51,84 @@ Notion—The AI workspace that works for you.
 - 환급 조건 변경 (선행 관계 → 병렬 조건)
 - 정산 규칙 보강
 - ERD 수정(초대권 트랜젝션 테이블 추가)
+
+/**
+ * Description
+ * @param {//munto.atlassian.net/jira/people/team/b2669c05-cd8a-477b-ab90-852b530e6b1f?ref=jira$&src=issue} https
+ * @returns {any}
+ */
+
+# comment by 김범진
+
+[개발팀](https://munto.atlassian.net/jira/people/team/b2669c05-cd8a-477b-ab90-852b530e6b1f?ref=jira$&src=issue) (@김범진 @홍진영 @김세현 @전규현)
+
+체험단 SRS 피드백 주신 내용 토대로 v1.0.2 작성했습니다.
+
+금주 화요일(4/14)까지 리뷰 요청드립니다.
+
+[https://www.notion.so/munto/SRS-336e2bc7639d8069ba3edbb820c7f72d?source=copy_link](https://www.notion.so/SRS-336e2bc7639d8069ba3edbb820c7f72d?pvs=21)
+
+<주요 변경 사항>
+
+- 7.6.2 부분 환불
+
+# comment by 전규현
+
+체험단 SRS v1.0.2 리뷰 완료했습니다.
+
+v1.0.2에서 추가된 7.6.2 이중 환불 방지 로직(조건부 UPDATE)은 적절하게 수정되었습니다.
+
+리뷰 의견 Notion 코멘트로 남겼습니다. 반영하면 개발 착수 가능한 수준입니다.
+
+
+# comment by 김범진
+
+[개발팀](https://munto.atlassian.net/jira/people/team/b2669c05-cd8a-477b-ab90-852b530e6b1f?ref=jira$&src=issue) (@김범진 @홍진영 @김세현 @전규현)
+
+체험단 SRS 피드백 주신 내용 토대로 v1.0.3 작성했습니다.
+
+금주 화요일(4/14)까지 리뷰 요청드립니다.
+
+[https://www.notion.so/munto/SRS-336e2bc7639d8069ba3edbb820c7f72d?source=copy_link](https://www.notion.so/SRS-336e2bc7639d8069ba3edbb820c7f72d?pvs=21)
+
+<주요 변경 사항>
+
+- 2.3 스케줄러 cron 주기 명시
+- 6.5 동시 참여 제약 조건 명시
+- 7.2.4 모집 취소 → 소셜링 폐강/취소로 명확화
+- 7.4.2 동시 참여 제약 조건 명시
+- 7.6.2 이중 환불 방지 실행 순서를 기존 얼리버드 패턴 기반으로 구체화
+
+## comment by 전규현
+
+@김범진 SRS v1.0.3 리뷰 완료했습니다. 리뷰 의견이 잘 반영되었습니다. 개발 착수해 주시면 됩니다.
+
+한 가지 확인 사항이 있습니다. 호스트가 24시간 내에 "미참석"을 선택하면, 실제 참석한 유저도 환급 대상에서 제외됩니다. 현재 SRS에는 이 상황에서 유저가 취할 수 있는 행동이 정의되어 있지 않습니다. 7.6.3에서 "운영팀이 필요 시 백오피스에서 수동 환급 가능"이라고 했지만, 유저가 이 상황을 인지하는 경로가 없습니다.
+
+최소한 다음을 검토해 주시면 좋겠습니다:
+
+- 호스트가 "미참석" 선택 시 유저에게 알림 발송 (현재 7.8에 해당 알림 없음)
+- 유저가 CS를 통해 이의를 제기하면 운영팀이 백오피스에서 수동 환급 처리
+
+기획 확정이 필요한 사안이라면 TBD로 표기하더라도 이슈를 인지하고 있다는 점을 문서에 남겨두는 것을 권장합니다.
+
+
+# comment by 김범진
+
+[개발팀](https://munto.atlassian.net/jira/people/team/b2669c05-cd8a-477b-ab90-852b530e6b1f?ref=jira$&src=issue) (@김범진 @홍진영 @김세현 @전규현)
+
+체험단 SRS 피드백 주신 내용 토대로 v1.0.4 작성했습니다.
+
+금주 목요일(4/16)까지 리뷰 요청드립니다.
+
+[https://www.notion.so/munto/SRS-336e2bc7639d8069ba3edbb820c7f72d?source=copy_link](https://www.notion.so/SRS-336e2bc7639d8069ba3edbb820c7f72d?pvs=21)
+
+<주요 변경 사항>
+
+- 체험단 모집 취소 패널티 제거
+- 호스트가 체험단 미참여 선택 시 멤버에게 푸시 알림
+- 체험단 멤버 참여 여부 백오피스 추가
+
+## comment by 전규현
+
+@김범진 SRS v1.0.4 리뷰 완료했습니다. 리뷰 의견이 잘 반영되었습니다. 개발 착수해 주시면 됩니다.
