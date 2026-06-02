@@ -1,0 +1,16 @@
+---
+description: Munto Jira·Notion 문서 리뷰 요청 시 munto-doc-review Skill을 따른다.
+globs: munto_docs/**/*
+alwaysApply: false
+---
+
+# Munto 문서 리뷰
+
+사용자가 **리뷰**, **review**, **N차 리뷰**, **OnePager/SRS 리뷰**를 요청하거나 `WEBB-` / `AWSI-` / `APPF-` / `WEBF-` 이슈와 함께 문서 검토를 말하면:
+
+1. `.cursor/skills/munto-doc-review/SKILL.md` 를 읽고 그 워크플로를 따른다.
+2. `munto_docs/Jira/{KEY}.md` 와 연결된 Notion(`.md`) 본문을 함께 본다.
+3. 산출: `*Review.md` 또는 `*-review.md` + Jira md 하단 `## comment by {리뷰어}`.
+4. 한국어, 이모지 없음. git commit 하지 않는다.
+
+기본 리뷰어 이름: 전규현 (사용자가 지정 시 변경).
