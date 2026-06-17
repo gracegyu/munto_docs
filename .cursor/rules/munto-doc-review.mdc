@@ -9,8 +9,10 @@ alwaysApply: false
 사용자가 **리뷰**, **review**, **N차 리뷰**, **OnePager/SRS 리뷰**를 요청하거나 `WEBB-` / `AWSI-` / `APPF-` / `WEBF-` 이슈와 함께 문서 검토를 말하면:
 
 1. `.cursor/skills/munto-doc-review/SKILL.md` 를 읽고 그 워크플로를 따른다.
-2. `munto_docs/Jira/{KEY}.md` 와 연결된 Notion(`.md`) 본문을 함께 본다.
+2. `munto_docs` md는 Notion·Jira **로컬 미러** — 리뷰는 md로 읽되, Review·Jira 코멘트에는 **Notion URL·문서 제목·Jira 링크**만 (레포 `.md` 경로 인용 금지).
 3. 산출: `*Review.md` 또는 `*-review.md` + Jira md 하단 `## comment by {리뷰어}`.
-4. 한국어, 이모지 없음. git commit 하지 않는다.
+4. Review 항목은 **반영 가치 있는 것만**. 단, **보고서**에 **Executive Summary(본문 맨 앞)** 없으면 **항상 HIGH + 전체 평가 + Jira 코멘트 최상단**에 필수 기재.
+5. **Notion 위치**는 Notion에 보이는 섹션 제목만 (`1. 권장 결정`). md `##`·레포 경로는 작성자-facing 문장에 금지. Notion 댓글 톤 유지.
+6. 한국어, 이모지 없음. git commit 하지 않는다.
 
 기본 리뷰어 이름: 전규현 (사용자가 지정 시 변경).

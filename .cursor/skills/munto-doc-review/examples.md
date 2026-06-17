@@ -10,18 +10,20 @@
 
 **Review 파일:** `munto_docs/Jira/AWSI-83-ElastiCache · RDS RI 재약정… Review.md`
 
-**Jira md 추가:**
+**Jira md 추가 (Executive Summary 누락 시):**
 
 ```markdown
 ## comment by 전규현
 
-@홍진영 RI 재약정 검토 보고서 리뷰했습니다. prod 즉시 재약정·lounge 보류·dev 4종 약정 방향은 Jira 배경과 맞고 수치 근거도 충분합니다.
+@홍진영 … Option A·수치 방향 괜찮아 보입니다. …
 
-**요약**
-- Warning: 2건 — DocumentDB RI 트랙 일정, lounge 사이즈업 후 재약정 절차
-- Info: 1건 — All Upfront 재무 협의 문구 보강
+**가장 큰 보완 (필수)**
+보고서 맨 위에 Executive Summary 없음. 본문 시작이 **1. 권장 결정**부터라 … **Executive Summary** 섹션 추가 부탁. 참고: Notion **「정산 로직 개선 검증 결과 보고서」**([WEBB-1328](https://munto.atlassian.net/browse/WEBB-1328)).
 
-상세: `munto_docs/Jira/AWSI-83-ElastiCache · RDS RI 재약정을 통한 비용 최적화 검토 보고서 Review.md`
+**그 외 반영 권장**
+1. …
+
+(레포 Review.md 경로는 Jira에 적지 않음)
 ```
 
 ---
@@ -71,24 +73,20 @@
 
 ---
 
-## 예시 4: Critical/Warning/Info ID (OnePager 상세)
+## 예시 4: Notion 댓글 톤 (권장)
 
 ```markdown
-### [C-001] STAFF가 정산 캡 정의에서 누락
+**[Technical Description > 통일안 > 정산 캡]**
 
-**위치**: `## Technical Description > 통일안 > 정산 캡`
-
-> (원문 인용)
-
-정산 캡은 STAFF를 차감하지만 orderId CHECK는 HOST만 기준으로…
+정산 캡은 STAFF를 빼는데 orderId CHECK는 HOST만 보면 STAFF 유료 결제 때 동작이 애매합니다. CHECK 조건에 STAFF 케이스를 명시해 주시면 좋겠습니다.
 ```
 
 ---
 
-## 예시 5: R-번호 (인프라·기능 OnePager)
+## 예시 5: R-번호 + Jira 위치 (보고서)
 
 ```markdown
-### R-02. API 응답 스키마 및 에러 처리 미정의
+**[1. 권장 결정 — lounge 행]**
 
-`POST /v1/events` 요청만 있고 응답·부분 실패·멱등·배치 상한이 없습니다. …
+(Jira [AWSI-83] 개선 방향과 Option A 보류 — Notion 댓글 본문)
 ```

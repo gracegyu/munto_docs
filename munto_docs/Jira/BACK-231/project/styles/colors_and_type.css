@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Munto Design System — Colors & Typography
+   Source: muntorial (lib/src/base/colors.dart, lib/src/theme/typography.dart)
+   Figma:  v2._theme/color, v2._theme/Typography
+   ========================================================================== */
+
+/* -------- Pretendard font faces (Korean-first brand typeface) -------- */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Bold.ttf') format('truetype');
+}
+
+:root {
+  /* ---------- Primary (Munto Red — brand color) ---------- */
+  --primary:       #F43630;
+  --primary-50:    #F43630;
+  --primary-40:    #F65E59;
+  --primary-30:    #F88683;
+  --primary-20:    #FBAFAC;
+  --primary-10:    #FFD6D5;
+  --primary-05:    #FEEBEA;
+  --primary-00:    #FFFFFF;
+
+  /* ---------- Secondary (Green) ---------- */
+  --secondary:     #1C8A6A;
+  --secondary-50:  #1C8A6A;
+  --secondary-40:  #49A188;
+  --secondary-30:  #77B9A6;
+  --secondary-20:  #A4D0C3;
+  --secondary-10:  #BBDCD2;
+  --secondary-05:  #E8F3F0;
+
+  /* ---------- Tertiary (Blue) ---------- */
+  --tertiary:      #3498D0;
+  --tertiary-50:   #3498D0;
+  --tertiary-40:   #5DADD9;
+  --tertiary-30:   #85C1E3;
+  --tertiary-20:   #9ACBE8;
+  --tertiary-10:   #C2E0F1;
+  --tertiary-05:   #EBF5FA;
+
+  /* ---------- Accent ---------- */
+  --accent-indigo: #143667;
+  --accent-yellow: #FBBC04;
+  --accent-peach:  #EBBDA6;
+  --accent-red:    #F43630;
+
+  /* ---------- Neutral (grayscale — core UI) ---------- */
+  --neutral-00:    #FFFFFF;
+  --neutral-05:    #FEFEFE;
+  --neutral-10:    #F4F4F4;
+  --neutral-20:    #DBDBDB;
+  --neutral-30:    #B9B6B6;
+  --neutral-40:    #999696;
+  --neutral-50:    #666060;
+  --neutral-60:    #383535;   /* default text color */
+  --neutral-70:    #080606;
+
+  /* ---------- Semantic surfaces & lines ---------- */
+  --bg:            #F4F4F4;   /* background */
+  --bg-alt:        #FFFFFF;   /* backgroundAlter */
+  --surface:       #FEFEFE;
+  --surface-alt:   #F4F4F4;
+  --line:          #DBDBDB;
+  --line-alt:      #383535;
+  --status:        #DBDBDB;
+  --status-active: #383535;
+  --error:         #F43630;
+
+  /* ---------- Semantic text ---------- */
+  --fg:            #383535;   /* default text — neutral-60 */
+  --fg-strong:     #080606;   /* neutral-70 */
+  --fg-muted:      #666060;   /* neutral-50 */
+  --fg-subtle:     #999696;   /* neutral-40 */
+  --fg-disabled:   #B9B6B6;   /* neutral-30 */
+  --fg-inverse:    #FFFFFF;
+  --fg-brand:      #F43630;
+
+  /* ---------- Typography ---------- */
+  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               'Apple SD Gothic Neo', 'Noto Sans KR', Roboto, sans-serif;
+
+  /* Tracking: Munto uses consistent -0.25 across the ramp */
+  --tracking-tight: -0.01em;    /* ~-0.25 at 24px */
+  --tracking-normal: -0.0125em; /* ~-0.2 at 16px */
+
+  /* ---------- Spacing / radii / elevation ---------- */
+  --space-0: 0px;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 14px;    /* kSidePadding — mobile side gutter */
+  --space-6: 16px;    /* kBottomPadding */
+  --space-7: 20px;    /* kDatingSidePadding */
+  --space-8: 24px;
+  --space-9: 32px;
+  --space-10: 40px;
+  --space-11: 60px;   /* section gap */
+  --space-12: 100px;  /* PC section gap */
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;    /* button (square variant) */
+  --radius-md: 12px;   /* cards */
+  --radius-lg: 16px;   /* sheets */
+  --radius-xl: 20px;   /* large containers */
+  --radius-pill: 999px;
+
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-sheet: 0 -4px 16px rgba(0,0,0,0.08);
+  --shadow-modal: 0 8px 32px rgba(0,0,0,0.16);
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}
+
+/* ==========================================================================
+   Typography scale — mirrors MuntorialTypography (theme/typography.dart)
+   Weight = Medium (500) by default; .semibold / .bold variants override.
+   ========================================================================== */
+
+/* Display */
+.mt-display-large  { font: 500 56px/72px var(--font-sans); letter-spacing: -0.25px; }
+.mt-display-medium { font: 500 40px/52px var(--font-sans); letter-spacing: -0.25px; }
+.mt-display-small  { font: 500 24px/36px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Title */
+.mt-title-large  { font: 500 28px/40px var(--font-sans); letter-spacing: -0.25px; }
+.mt-title-medium { font: 500 20px/28px var(--font-sans); letter-spacing: -0.25px; }
+.mt-title-small  { font: 500 18px/26px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Headline (semibold by default) */
+.mt-headline-large  { font: 600 20px/28px var(--font-sans); letter-spacing: -0.25px; }
+.mt-headline-medium { font: 600 18px/26px var(--font-sans); letter-spacing: -0.25px; }
+.mt-headline-small  { font: 600 14px/22px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Label (medium) */
+.mt-label-large  { font: 500 16px/24px var(--font-sans); letter-spacing: -0.25px; }
+.mt-label-medium { font: 500 14px/22px var(--font-sans); letter-spacing: -0.25px; }
+.mt-label-small  { font: 500 12px/20px var(--font-sans); letter-spacing: -0.25px; }
+.mt-label-light  { font: 500 10px/16px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Body (regular) */
+.mt-body-xlarge { font: 400 18px/26px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-large  { font: 400 16px/24px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-medium { font: 400 14px/22px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-small  { font: 400 12px/20px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-light  { font: 400 10px/18px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Weight modifiers */
+.mt-w-regular  { font-weight: 400; }
+.mt-w-medium   { font-weight: 500; }
+.mt-w-semibold { font-weight: 600; }
+.mt-w-bold     { font-weight: 700; }
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html, body {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg-alt);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+* { box-sizing: border-box; }
+
+/* Semantic element defaults (optional; use class-based when conflicts arise) */
+h1 { font: 700 28px/40px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+h2 { font: 600 24px/36px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+h3 { font: 600 20px/28px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+h4 { font: 600 18px/26px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+p  { font: 400 14px/22px var(--font-sans); letter-spacing: -0.25px; color: var(--fg); margin: 0; }
+small { font: 400 12px/20px var(--font-sans); color: var(--fg-muted); }

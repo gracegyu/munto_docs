@@ -1,0 +1,3055 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1280" />
+<title>문토 체험단 백오피스</title>
+<style>
+/* ==========================================================================
+   Munto Design System — Colors & Typography
+   Source: muntorial (lib/src/base/colors.dart, lib/src/theme/typography.dart)
+   Figma:  v2._theme/color, v2._theme/Typography
+   ========================================================================== */
+
+/* -------- Pretendard font faces (Korean-first brand typeface) -------- */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Bold.ttf') format('truetype');
+}
+
+:root {
+  /* ---------- Primary (Munto Red — brand color) ---------- */
+  --primary:       #F43630;
+  --primary-50:    #F43630;
+  --primary-40:    #F65E59;
+  --primary-30:    #F88683;
+  --primary-20:    #FBAFAC;
+  --primary-10:    #FFD6D5;
+  --primary-05:    #FEEBEA;
+  --primary-00:    #FFFFFF;
+
+  /* ---------- Secondary (Green) ---------- */
+  --secondary:     #1C8A6A;
+  --secondary-50:  #1C8A6A;
+  --secondary-40:  #49A188;
+  --secondary-30:  #77B9A6;
+  --secondary-20:  #A4D0C3;
+  --secondary-10:  #BBDCD2;
+  --secondary-05:  #E8F3F0;
+
+  /* ---------- Tertiary (Blue) ---------- */
+  --tertiary:      #3498D0;
+  --tertiary-50:   #3498D0;
+  --tertiary-40:   #5DADD9;
+  --tertiary-30:   #85C1E3;
+  --tertiary-20:   #9ACBE8;
+  --tertiary-10:   #C2E0F1;
+  --tertiary-05:   #EBF5FA;
+
+  /* ---------- Accent ---------- */
+  --accent-indigo: #143667;
+  --accent-yellow: #FBBC04;
+  --accent-peach:  #EBBDA6;
+  --accent-red:    #F43630;
+
+  /* ---------- Neutral (grayscale — core UI) ---------- */
+  --neutral-00:    #FFFFFF;
+  --neutral-05:    #FEFEFE;
+  --neutral-10:    #F4F4F4;
+  --neutral-20:    #DBDBDB;
+  --neutral-30:    #B9B6B6;
+  --neutral-40:    #999696;
+  --neutral-50:    #666060;
+  --neutral-60:    #383535;   /* default text color */
+  --neutral-70:    #080606;
+
+  /* ---------- Semantic surfaces & lines ---------- */
+  --bg:            #F4F4F4;   /* background */
+  --bg-alt:        #FFFFFF;   /* backgroundAlter */
+  --surface:       #FEFEFE;
+  --surface-alt:   #F4F4F4;
+  --line:          #DBDBDB;
+  --line-alt:      #383535;
+  --status:        #DBDBDB;
+  --status-active: #383535;
+  --error:         #F43630;
+
+  /* ---------- Semantic text ---------- */
+  --fg:            #383535;   /* default text — neutral-60 */
+  --fg-strong:     #080606;   /* neutral-70 */
+  --fg-muted:      #666060;   /* neutral-50 */
+  --fg-subtle:     #999696;   /* neutral-40 */
+  --fg-disabled:   #B9B6B6;   /* neutral-30 */
+  --fg-inverse:    #FFFFFF;
+  --fg-brand:      #F43630;
+
+  /* ---------- Typography ---------- */
+  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               'Apple SD Gothic Neo', 'Noto Sans KR', Roboto, sans-serif;
+
+  /* Tracking: Munto uses consistent -0.25 across the ramp */
+  --tracking-tight: -0.01em;    /* ~-0.25 at 24px */
+  --tracking-normal: -0.0125em; /* ~-0.2 at 16px */
+
+  /* ---------- Spacing / radii / elevation ---------- */
+  --space-0: 0px;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 14px;    /* kSidePadding — mobile side gutter */
+  --space-6: 16px;    /* kBottomPadding */
+  --space-7: 20px;    /* kDatingSidePadding */
+  --space-8: 24px;
+  --space-9: 32px;
+  --space-10: 40px;
+  --space-11: 60px;   /* section gap */
+  --space-12: 100px;  /* PC section gap */
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;    /* button (square variant) */
+  --radius-md: 12px;   /* cards */
+  --radius-lg: 16px;   /* sheets */
+  --radius-xl: 20px;   /* large containers */
+  --radius-pill: 999px;
+
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-sheet: 0 -4px 16px rgba(0,0,0,0.08);
+  --shadow-modal: 0 8px 32px rgba(0,0,0,0.16);
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}
+
+/* ==========================================================================
+   Typography scale — mirrors MuntorialTypography (theme/typography.dart)
+   Weight = Medium (500) by default; .semibold / .bold variants override.
+   ========================================================================== */
+
+/* Display */
+.mt-display-large  { font: 500 56px/72px var(--font-sans); letter-spacing: -0.25px; }
+.mt-display-medium { font: 500 40px/52px var(--font-sans); letter-spacing: -0.25px; }
+.mt-display-small  { font: 500 24px/36px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Title */
+.mt-title-large  { font: 500 28px/40px var(--font-sans); letter-spacing: -0.25px; }
+.mt-title-medium { font: 500 20px/28px var(--font-sans); letter-spacing: -0.25px; }
+.mt-title-small  { font: 500 18px/26px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Headline (semibold by default) */
+.mt-headline-large  { font: 600 20px/28px var(--font-sans); letter-spacing: -0.25px; }
+.mt-headline-medium { font: 600 18px/26px var(--font-sans); letter-spacing: -0.25px; }
+.mt-headline-small  { font: 600 14px/22px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Label (medium) */
+.mt-label-large  { font: 500 16px/24px var(--font-sans); letter-spacing: -0.25px; }
+.mt-label-medium { font: 500 14px/22px var(--font-sans); letter-spacing: -0.25px; }
+.mt-label-small  { font: 500 12px/20px var(--font-sans); letter-spacing: -0.25px; }
+.mt-label-light  { font: 500 10px/16px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Body (regular) */
+.mt-body-xlarge { font: 400 18px/26px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-large  { font: 400 16px/24px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-medium { font: 400 14px/22px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-small  { font: 400 12px/20px var(--font-sans); letter-spacing: -0.25px; }
+.mt-body-light  { font: 400 10px/18px var(--font-sans); letter-spacing: -0.25px; }
+
+/* Weight modifiers */
+.mt-w-regular  { font-weight: 400; }
+.mt-w-medium   { font-weight: 500; }
+.mt-w-semibold { font-weight: 600; }
+.mt-w-bold     { font-weight: 700; }
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html, body {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg-alt);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+* { box-sizing: border-box; }
+
+/* Semantic element defaults (optional; use class-based when conflicts arise) */
+h1 { font: 700 28px/40px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+h2 { font: 600 24px/36px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+h3 { font: 600 20px/28px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+h4 { font: 600 18px/26px var(--font-sans); letter-spacing: -0.25px; color: var(--fg-strong); }
+p  { font: 400 14px/22px var(--font-sans); letter-spacing: -0.25px; color: var(--fg); margin: 0; }
+small { font: 400 12px/20px var(--font-sans); color: var(--fg-muted); }
+
+/* Munto Admin Backoffice — additional tokens for desktop density */
+:root {
+  --admin-sidebar-w: 260px;
+  --admin-topbar-h: 56px;
+  --admin-content-bg: #F7F7F8;
+  --admin-card-border: #EDECEC;
+
+  --badge-success-bg: #E8F3F0;
+  --badge-success-fg: #1C8A6A;
+  --badge-danger-bg: #FEEBEA;
+  --badge-danger-fg: #F43630;
+  --badge-warn-bg: #FFF6E0;
+  --badge-warn-fg: #B77B00;
+  --badge-info-bg: #EBF5FA;
+  --badge-info-fg: #1E6E9E;
+  --badge-neutral-bg: #F1F1F2;
+  --badge-neutral-fg: #666060;
+}
+
+html, body { margin: 0; padding: 0; background: var(--admin-content-bg); }
+body { font-family: var(--font-sans); color: var(--fg); }
+
+/* ---------- Top-level layout ---------- */
+.admin-app {
+  display: grid;
+  grid-template-columns: var(--admin-sidebar-w) 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.sidebar-brand {
+  height: var(--admin-topbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+.sidebar-brand .logo {
+  font: 700 18px/1 var(--font-sans);
+  letter-spacing: -0.5px;
+  color: var(--fg-strong);
+}
+.sidebar-brand .burger {
+  color: var(--fg-muted);
+  width: 20px; height: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.sidebar-nav {
+  padding: 8px 0 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+.nav-section { margin-bottom: 4px; }
+.nav-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px 18px 20px;
+  font: 700 15px/1 var(--font-sans);
+  color: #111;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+.nav-section-header .ic {
+  width: 24px; height: 24px;
+  border-radius: 4px;
+  background: #F0F0F2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+}
+.nav-section-header .ic svg { width: 14px; height: 14px; }
+.nav-section-header .expand { margin-left: auto; transform: rotate(-90deg); color: #111; }
+
+.nav-group { }
+.nav-group-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px 15px 22px;
+  cursor: pointer;
+  color: #111;
+  user-select: none;
+  background: #fff;
+}
+.nav-group-header:hover { background: #FAFAFA; }
+.nav-group-header .label {
+  font: 600 14.5px/1 var(--font-sans);
+  letter-spacing: -0.3px;
+  flex: 1;
+}
+.nav-group-header .chev {
+  color: #111;
+  transform: rotate(90deg);
+  transition: transform 200ms var(--ease-standard);
+}
+.nav-group.open .nav-group-header .chev { transform: rotate(-90deg); }
+
+.nav-sub {
+  display: none;
+  background: #fff;
+  padding: 2px 0 6px;
+}
+.nav-group.open .nav-sub { display: block; }
+.nav-item {
+  display: block;
+  padding: 12px 20px 12px 44px;
+  font: 600 13.5px/1 var(--font-sans);
+  letter-spacing: -0.3px;
+  color: #111;
+  cursor: pointer;
+  position: relative;
+}
+.nav-item:hover { background: #FAFAFA; }
+.nav-item.active {
+  color: #111;
+  font-weight: 700;
+}
+.nav-item-dim {
+  color: #C9C9CD;
+}
+.nav-item-dim:hover { background: #FAFAFA; color: #A8A8AC; }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  height: var(--admin-topbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar .admin-user {
+  font: 500 13px/1 var(--font-sans);
+  color: var(--fg-muted);
+}
+.btn-logout {
+  font: 500 12px/1 var(--font-sans);
+  letter-spacing: -0.25px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 6px;
+  color: var(--fg);
+  cursor: pointer;
+}
+.btn-logout:hover { background: var(--neutral-10); }
+
+/* ---------- Page shell ---------- */
+.page {
+  padding: 24px 28px 48px;
+  max-width: 1400px;
+}
+.breadcrumb {
+  font: 500 13px/1.4 var(--font-sans);
+  color: var(--fg-muted);
+  letter-spacing: -0.25px;
+  margin-bottom: 4px;
+}
+.breadcrumb .sep { margin: 0 6px; color: var(--neutral-30); }
+.breadcrumb .cur { color: var(--fg); font-weight: 600; }
+.page-title {
+  font: 700 22px/1.3 var(--font-sans);
+  letter-spacing: -0.5px;
+  color: var(--fg-strong);
+  margin: 2px 0 20px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: #fff;
+  border: 1px solid var(--admin-card-border);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.card + .card { margin-top: 16px; }
+.card-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--admin-card-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card-head .title {
+  font: 600 15px/1.3 var(--font-sans);
+  letter-spacing: -0.25px;
+  color: var(--fg-strong);
+}
+.card-body { padding: 18px 20px; }
+.card-body.pad-sm { padding: 12px 16px; }
+.card-body.pad-0 { padding: 0; }
+
+/* Section label (above a card, like 결제자 정보) */
+.section-label {
+  font: 600 14px/1.3 var(--font-sans);
+  letter-spacing: -0.25px;
+  color: var(--fg-strong);
+  margin: 20px 0 10px;
+}
+.section-label:first-of-type { margin-top: 0; }
+
+/* ---------- Form controls ---------- */
+.form-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font: 500 12px/1 var(--font-sans);
+  color: var(--fg-muted);
+  letter-spacing: -0.25px;
+}
+.input, .select, .textarea {
+  font: 400 13px/1.3 var(--font-sans);
+  letter-spacing: -0.25px;
+  color: var(--fg);
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  height: 36px;
+  outline: none;
+  transition: border-color 120ms var(--ease-standard);
+}
+.textarea { height: auto; min-height: 96px; padding: 10px 12px; resize: vertical; }
+.input::placeholder, .textarea::placeholder { color: var(--neutral-30); }
+.input:focus, .select:focus, .textarea:focus { border-color: var(--primary-50); }
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5l3 3 3-3' fill='none' stroke='%23666060' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.checkbox, .radio {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 500 13px/1 var(--font-sans);
+  letter-spacing: -0.25px;
+  cursor: pointer;
+  color: var(--fg);
+}
+.checkbox input, .radio input {
+  width: 16px; height: 16px;
+  accent-color: var(--primary-50);
+  margin: 0;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font: 600 13px/1 var(--font-sans);
+  letter-spacing: -0.25px;
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 120ms var(--ease-standard);
+  height: 36px;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--primary-50);
+  color: #fff;
+}
+.btn-primary:hover { background: #DA241F; }
+.btn-success {
+  background: var(--secondary-50);
+  color: #fff;
+}
+.btn-success:hover { background: #0F6F53; }
+.btn-outline {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--fg);
+}
+.btn-outline:hover { background: var(--neutral-10); }
+.btn-ghost {
+  background: transparent;
+  color: var(--fg-muted);
+}
+.btn-ghost:hover { background: var(--neutral-10); color: var(--fg); }
+.btn-sm { height: 30px; padding: 6px 12px; font-size: 12px; }
+.btn-xs { height: 26px; padding: 4px 10px; font-size: 12px; border-radius: 5px; }
+.btn[disabled], .btn.disabled {
+  background: var(--neutral-20);
+  color: var(--neutral-40);
+  cursor: not-allowed;
+  border-color: transparent;
+}
+.btn-danger {
+  background: var(--primary-50);
+  color: #fff;
+}
+.btn-danger:hover { background: #DA241F; }
+
+/* ---------- Badges ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font: 600 11.5px/1 var(--font-sans);
+  letter-spacing: -0.25px;
+  white-space: nowrap;
+}
+.badge .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+}
+.badge-success { background: var(--badge-success-bg); color: var(--badge-success-fg); }
+.badge-danger  { background: var(--badge-danger-bg);  color: var(--badge-danger-fg); }
+.badge-warn    { background: var(--badge-warn-bg);    color: var(--badge-warn-fg); }
+.badge-info    { background: var(--badge-info-bg);    color: var(--badge-info-fg); }
+.badge-neutral { background: var(--badge-neutral-bg); color: var(--badge-neutral-fg); }
+
+/* ---------- Tables ---------- */
+.tbl-wrap { overflow-x: auto; }
+table.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 13px/1.4 var(--font-sans);
+  letter-spacing: -0.25px;
+}
+table.tbl thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font: 600 12px/1.3 var(--font-sans);
+  letter-spacing: -0.25px;
+  color: var(--fg-muted);
+  background: #FAFAFB;
+  border-bottom: 1px solid var(--admin-card-border);
+  white-space: nowrap;
+}
+table.tbl tbody td {
+  padding: 14px 14px;
+  border-bottom: 1px solid #F2F2F3;
+  color: var(--fg);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+table.tbl tbody tr:last-child td { border-bottom: none; }
+table.tbl tbody tr:hover td { background: #FBFBFC; }
+table.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
+table.tbl .link {
+  color: var(--tertiary-50);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+table.tbl .link:hover { text-decoration: underline; }
+table.tbl .muted { color: var(--fg-muted); }
+table.tbl .dim { color: var(--neutral-30); }
+
+/* ---------- KPI / summary grid ---------- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  background: #fff;
+  border: 1px solid var(--admin-card-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.kpi-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.kpi-cell {
+  padding: 18px 20px;
+  border-right: 1px solid var(--admin-card-border);
+}
+.kpi-cell:last-child { border-right: none; }
+.kpi-label {
+  font: 500 12px/1.3 var(--font-sans);
+  color: var(--fg-muted);
+  letter-spacing: -0.25px;
+  margin-bottom: 8px;
+}
+.kpi-value {
+  font: 700 20px/1.2 var(--font-sans);
+  letter-spacing: -0.5px;
+  color: var(--fg-strong);
+  font-variant-numeric: tabular-nums;
+}
+.kpi-value.link { color: var(--tertiary-50); cursor: pointer; text-decoration: underline; text-decoration-color: rgba(52,152,208,.35); text-underline-offset: 3px; }
+.kpi-value .unit {
+  font: 500 12px/1 var(--font-sans);
+  color: var(--fg-muted);
+  margin-left: 2px;
+}
+
+/* ---------- Tabs (table pager row) ---------- */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--admin-card-border);
+  gap: 12px;
+}
+.table-toolbar .left { display: flex; align-items: center; gap: 8px; }
+.table-toolbar .right { display: flex; align-items: center; gap: 8px; }
+.pagination {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+}
+.pagination button {
+  width: 30px; height: 30px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font: 500 12px/1 var(--font-sans);
+  color: var(--fg);
+  cursor: pointer;
+}
+.pagination button.active { background: var(--primary-50); color: #fff; border-color: var(--primary-50); }
+.pagination button:hover:not(.active):not(:disabled) { background: var(--neutral-10); }
+.pagination button:disabled { color: var(--neutral-30); cursor: not-allowed; }
+
+/* ---------- Toast ---------- */
+.toast-region {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  background: #202020;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font: 500 13px/1.4 var(--font-sans);
+  letter-spacing: -0.25px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  display: flex; align-items: center; gap: 10px;
+  min-width: 280px;
+  animation: toast-in 220ms var(--ease-standard);
+}
+.toast .check {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--secondary-50);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+@keyframes toast-in {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ---------- Modal ---------- */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  padding: 32px;
+  animation: fade-in 180ms var(--ease-standard);
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 980px;
+  max-height: calc(100vh - 64px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-modal);
+}
+.modal-head {
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--admin-card-border);
+}
+.modal-head .title {
+  font: 700 17px/1.3 var(--font-sans);
+  letter-spacing: -0.5px;
+  color: var(--fg-strong);
+}
+.modal-head .close {
+  background: transparent; border: none; cursor: pointer;
+  color: var(--fg-muted); padding: 6px; border-radius: 6px;
+}
+.modal-head .close:hover { background: var(--neutral-10); color: var(--fg); }
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+.modal-foot {
+  padding: 0;
+  border-top: 1px solid var(--admin-card-border);
+}
+.modal-foot .btn-full {
+  width: 100%;
+  height: 56px;
+  border-radius: 0;
+  font: 700 15px/1 var(--font-sans);
+  letter-spacing: -0.25px;
+}
+
+/* Helpers */
+.mono { font-variant-numeric: tabular-nums; }
+.text-strong { color: var(--fg-strong); font-weight: 600; }
+.text-muted  { color: var(--fg-muted); }
+.text-brand  { color: var(--primary-50); }
+.text-link   { color: var(--tertiary-50); cursor: pointer; }
+.text-link:hover { text-decoration: underline; }
+.text-danger { color: var(--primary-50); }
+.text-success{ color: var(--secondary-50); }
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; }
+.between { justify-content: space-between; }
+.items-center { align-items: center; }
+.grow { flex: 1; }
+.hr { height: 1px; background: var(--admin-card-border); border: none; margin: 12px 0; }
+.pill {
+  display: inline-flex; align-items: center; padding: 4px 10px;
+  background: var(--neutral-10); color: var(--fg);
+  border-radius: 999px;
+  font: 500 12px/1 var(--font-sans);
+}
+
+/* Info block (for refund modal policy text) */
+.info-block {
+  background: #FAFAFB;
+  border: 1px solid var(--admin-card-border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.info-block .info-title {
+  font: 700 12.5px/1.3 var(--font-sans);
+  letter-spacing: -0.25px;
+  color: var(--fg-strong);
+  margin-bottom: 8px;
+}
+.info-block ul { margin: 0; padding-left: 18px; }
+.info-block li {
+  font: 400 12.5px/1.7 var(--font-sans);
+  letter-spacing: -0.25px;
+  color: var(--fg);
+}
+.info-block ol { margin: 0; padding-left: 18px; }
+.info-block ol li::marker { color: var(--fg-muted); }
+
+/* Refund ratio visualization */
+.refund-meter {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--admin-card-border);
+  height: 42px;
+}
+.refund-seg {
+  flex: 1;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  font: 600 12px/1.2 var(--font-sans);
+  letter-spacing: -0.25px;
+  padding: 4px;
+  color: var(--fg-muted);
+  background: #FAFAFB;
+  position: relative;
+}
+.refund-seg + .refund-seg { border-left: 1px solid var(--admin-card-border); }
+.refund-seg.active {
+  background: var(--secondary-05);
+  color: var(--secondary-50);
+}
+.refund-seg.active .rate { font-weight: 700; }
+.refund-seg .rate { font-size: 14px; font-weight: 700; }
+.refund-seg .label { font-size: 11px; font-weight: 500; margin-top: 2px; }
+
+/* Gender mini-breakdown */
+.gender-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: #F1F4F8; color: #4A6D9A; }
+.gender-chip.f { background: #FBEDF0; color: #B04268; }
+
+/* Definition list for detail cards */
+.dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0;
+}
+.dl > div {
+  padding: 14px 18px;
+  border-right: 1px solid var(--admin-card-border);
+}
+.dl > div:last-child { border-right: none; }
+.dl dt {
+  font: 500 12px/1.3 var(--font-sans);
+  color: var(--fg-muted);
+  letter-spacing: -0.25px;
+  margin-bottom: 6px;
+}
+.dl dd {
+  font: 600 14px/1.3 var(--font-sans);
+  color: var(--fg-strong);
+  margin: 0;
+  letter-spacing: -0.25px;
+  font-variant-numeric: tabular-nums;
+}
+.dl dd.link { color: var(--tertiary-50); cursor: pointer; }
+.dl dd.link:hover { text-decoration: underline; }
+
+  .screen-tabs { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 200; background: #fff; border: 1px solid var(--admin-card-border); border-radius: 999px; padding: 4px; display: flex; gap: 2px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .screen-tabs button { font: 600 12.5px/1 var(--font-sans); letter-spacing: -0.25px; padding: 8px 14px; border-radius: 999px; border: none; background: transparent; color: var(--fg-muted); cursor: pointer; }
+  .screen-tabs button.active { background: var(--primary-50); color: #fff; }
+  .screen-tabs button:hover:not(.active) { background: var(--neutral-10); color: var(--fg); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script>
+// Sample data for Munto Admin Backoffice (체험단)
+const KOREAN_NICKS = [
+  '민지', '서현', '지윤', '수민', '예린', '하늘', '도현', '지후', '은지', '혜원',
+  '수빈', '지민', '유진', '채원', '다은', '소율', '현우', '태민', '서준', '윤아',
+  '나연', '세라', '지안', '주현', '가은', '시은', '예나', '연우', '선우', '규민',
+  '동훈', '재혁', '진호', '태희', '지선', '유나', '민재', '소연', '보민', '건호'
+];
+
+const SOCIALING_NAMES = [
+  '강동 유스드림 새벽 러닝 클럽',
+  '성수동 책 읽는 수요일',
+  '한남동 와인 테이스팅 모임',
+  '연남동 브런치 투어',
+  '홍대 보드게임 카페 정복',
+  '판교 개발자 스터디',
+  '역삼 영어회화 프리토킹',
+  '을지로 필름카메라 산책',
+  '잠실 야구 직관 모임',
+  '이태원 재즈바 탐방',
+  '성북동 사찰 요가',
+  '강남 헬스 메이트 구함',
+  '신촌 라멘 원정대',
+  '망원동 자전거 라이딩',
+  '합정 베이킹 클래스',
+  '종로 한강 러닝 크루',
+  '여의도 직장인 배드민턴',
+  '삼청동 골목 사진 동호회',
+  '반포 한강 피크닉',
+  '광화문 국립미술관 투어',
+  '압구정 테니스 레슨 모임',
+  '상수 클라이밍 입문반',
+  '성수 도자기 원데이',
+  '용산 프랑스어 스터디',
+  '건대 보컬 트레이닝'
+];
+
+const CATEGORIES = [
+  ['운동/액티비티', '러닝'],
+  ['문화/예술', '독서'],
+  ['푸드/드링크', '와인'],
+  ['푸드/드링크', '브런치'],
+  ['문화/예술', '보드게임'],
+  ['자기계발', '스터디'],
+  ['외국어', '영어'],
+  ['문화/예술', '사진'],
+  ['운동/액티비티', '직관'],
+  ['문화/예술', '음악'],
+  ['운동/액티비티', '요가'],
+  ['운동/액티비티', '헬스'],
+  ['푸드/드링크', '맛집'],
+  ['운동/액티비티', '라이딩'],
+  ['푸드/드링크', '베이킹']
+];
+
+const STATUSES = [
+  { key: '결제 완료', variant: 'info' },
+  { key: '부분 환불', variant: 'warn' },
+  { key: '전체 환불', variant: 'danger' }
+];
+
+function pad(n, w = 2) { return String(n).padStart(w, '0'); }
+function fmtDate(d) { return `${String(d.getFullYear()).slice(2)}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`; }
+function fmtDateTime(d) {
+  const days = ['일','월','화','수','목','금','토'];
+  return `${String(d.getFullYear()).slice(2)}.${pad(d.getMonth()+1)}.${pad(d.getDate())} (${days[d.getDay()]}) ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function fmtMoney(n) { return n.toLocaleString('ko-KR'); }
+
+function seedRand(seed) {
+  let s = seed;
+  return () => {
+    s = (s * 9301 + 49297) % 233280;
+    return s / 233280;
+  };
+}
+
+// Generate payment rows
+function generatePayments(count = 24) {
+  const rand = seedRand(42);
+  const rows = [];
+  const today = new Date(2026, 3, 20);
+  for (let i = 0; i < count; i++) {
+    const daysAgo = Math.floor(rand() * 45);
+    const paidAt = new Date(today.getTime() - daysAgo * 86400000 - Math.floor(rand()*86400000));
+    const qty = [10, 20, 50, 100, 30, 40, 15, 25][Math.floor(rand()*8)];
+    const unitPrice = 10000;
+    const amount = qty * unitPrice;
+    const stat = STATUSES[Math.floor(rand() * 3)];
+    const channel = ['카드', '동시 결제', '간편결제', '계좌결제'][Math.floor(rand()*4)];
+    const method = ['PG', '앱스토어', '플레이스토어'][Math.floor(rand()*3)];
+    const nick = KOREAN_NICKS[i % KOREAN_NICKS.length];
+    const used = daysAgo > 5 && rand() > 0.6; // 사용 시작 여부
+    const within5 = daysAgo <= 5;
+    const refundable = !used && stat.key !== '전체 환불';
+    const refundRequestAt = stat.key.includes('환불') ? new Date(paidAt.getTime() + Math.floor(rand()*5)*86400000) : null;
+    const refundAvailAt = new Date(paidAt.getTime() + 5*86400000);
+    rows.push({
+      id: 1232130 + i,
+      paidAt,
+      status: stat,
+      qty,
+      amount,
+      channel,
+      method,
+      nickname: nick,
+      memberId: `munto${pad(1000+i, 4)}`,
+      phone: `010-${pad(Math.floor(rand()*10000),4)}-${pad(Math.floor(rand()*10000),4)}`,
+      refundRequestAt,
+      refundAvailAt,
+      tid: `T${20250808000000 + i * 311}`,
+      used,
+      within5,
+      refundable,
+      socialing: SOCIALING_NAMES[i % SOCIALING_NAMES.length],
+    });
+  }
+  return rows;
+}
+
+// Recruitment (모집) rows
+function generateRecruitments(count = 20) {
+  const rand = seedRand(88);
+  const rows = [];
+  const today = new Date(2026, 3, 20);
+  const recruitStatuses = [
+    { key: '모집 중', variant: 'success' },
+    { key: '모집 완료', variant: 'info' },
+    { key: '모집 취소', variant: 'danger' },
+    { key: '진행 완료', variant: 'neutral' },
+  ];
+  for (let i = 0; i < count; i++) {
+    const meetDate = new Date(today.getTime() + (Math.floor(rand()*40)-15)*86400000);
+    const createdAt = new Date(meetDate.getTime() - Math.floor(rand()*30+5)*86400000);
+    const cap = [8, 10, 12, 15, 20, 25][Math.floor(rand()*6)];
+    const applied = Math.min(cap + Math.floor(rand()*5), Math.floor(rand()*(cap+5)));
+    const confirmed = Math.min(applied, Math.floor(applied * (0.6 + rand()*0.35)));
+    const cat = CATEGORIES[i % CATEGORIES.length];
+    const stat = recruitStatuses[Math.floor(rand()*4)];
+    rows.push({
+      id: 30210 + i,
+      status: stat,
+      fee: [0, 10000, 15000, 20000, 25000, 30000][Math.floor(rand()*6)],
+      kind: ['승인제', '선착순'][Math.floor(rand()*2)],
+      category: cat[0],
+      subCategory: cat[1],
+      name: SOCIALING_NAMES[i % SOCIALING_NAMES.length],
+      meetDate,
+      place: ['강동 유스드림', '성수동', '한남동', '판교', '역삼', '을지로', '잠실', '이태원', '홍대', '합정', '망원', '여의도'][Math.floor(rand()*12)] + ' 일대',
+      memberId: `munto${pad(2000+i, 4)}`,
+      nickname: KOREAN_NICKS[(i+5) % KOREAN_NICKS.length],
+      phone: `010-${pad(Math.floor(rand()*10000),4)}-${pad(Math.floor(rand()*10000),4)}`,
+      capacity: cap,
+      applied,
+      confirmed,
+      male: Math.floor(confirmed/2),
+      female: confirmed - Math.floor(confirmed/2),
+      createdAt,
+    });
+  }
+  return rows;
+}
+
+// Members (체험단 멤버 목록)
+function generateMembers(count = 12) {
+  const rand = seedRand(17);
+  const rows = [];
+  const applyStatuses = [
+    { key: '승인 완료', variant: 'success' },
+    { key: '대기중', variant: 'neutral' },
+    { key: '신청 취소', variant: 'danger' }
+  ];
+  const memberStates = [
+    { key: '정상', variant: 'success' },
+    { key: '탈퇴', variant: 'neutral' },
+    { key: '정지', variant: 'danger' }
+  ];
+  const base = new Date(2026, 3, 15, 9, 0);
+  for (let i = 0; i < count; i++) {
+    const appliedAt = new Date(base.getTime() + i * 3600000 + Math.floor(rand()*3600000));
+    const approvedAt = new Date(appliedAt.getTime() + Math.floor(rand()*48+2)*3600000);
+    const stat = applyStatuses[Math.floor(rand()*3)];
+    const attended = stat.key === '승인 완료' && rand() > 0.2;
+    // 결제 상태: 신청 취소 → 부분/전체 환불, 그 외 → 결제 완료
+    let payStatus;
+    if (stat.key === '신청 취소') {
+      payStatus = rand() > 0.5
+        ? { key: '부분 환불', variant: 'warn' }
+        : { key: '전체 환불', variant: 'danger' };
+    } else {
+      payStatus = { key: '결제 완료', variant: 'info' };
+    }
+    const paid = 20000;
+    const refundAmt = payStatus.key === '부분 환불' ? Math.floor(paid * 0.8) : payStatus.key === '전체 환불' ? paid : Math.floor(paid * 0.8);
+    const partFee = payStatus.key === '부분 환불' ? paid - refundAmt : payStatus.key === '전체 환불' ? 0 : paid - refundAmt;
+    rows.push({
+      idx: i + 1,
+      orderId: `O${20250808 + i * 7}`,
+      payId: 1232130 + i,
+      status: stat,
+      payStatus,
+      memberState: memberStates[Math.floor(rand()*2.4)],
+      appliedAt,
+      approvedAt: stat.key === '대기중' ? null : approvedAt,
+      memberId: `munto${pad(3000 + i, 4)}`,
+      nickname: KOREAN_NICKS[(i+12) % KOREAN_NICKS.length],
+      phone: `010-${pad(Math.floor(rand()*10000),4)}-${pad(Math.floor(rand()*10000),4)}`,
+      tid: `T${20250809000000 + i * 421}`,
+      paid,
+      refundRate: 80,
+      refundAmt,
+      partFee,
+      discount: rand() > 0.6 ? 5000 : 0,
+      refund: stat.key === '신청 취소' ? paid : 0,
+      refunded: stat.key === '신청 취소',
+      reviewed: attended && rand() > 0.5,
+      attended,
+    });
+  }
+  return rows;
+}
+
+// Refund history for detail page
+function generateSocialApplications(count = 18) {
+  const rand = seedRand(33);
+  const rows = [];
+  const today = new Date(2026, 4, 12, 14, 0); // 26.05.12
+  const orderStatuses = {
+    paid: { key: '결제 완료', variant: 'info' },
+    partial: { key: '부분 환불', variant: 'warn' },
+    cancelled: { key: '취소 완료', variant: 'neutral' }
+  };
+  const cancelTypes = [
+    { key: '호스트 폐강', variant: 'warn' },
+    { key: '고객 취소', variant: 'neutral' },
+    { key: '호스트 미승인', variant: 'warn' },
+    { key: '인원 미달 폐강', variant: 'warn' }
+  ];
+  const payTypes = ['일반 결제', '얼리버드', '체험단'];
+  const kinds = ['승인제', '선착순'];
+  for (let i = 0; i < count; i++) {
+    const orderedAt = new Date(today.getTime() - Math.floor(rand() * 8) * 86400000);
+    const startAt = new Date(orderedAt.getTime() + Math.floor(rand() * 12 + 2) * 86400000);
+    // 결제 유형: 일반 결제 (60%) / 얼리버드 (25%) / 체험단 (15%)
+    const ptRoll = rand();
+    const payType = ptRoll < 0.6 ? '일반 결제' : ptRoll < 0.85 ? '얼리버드' : '체험단';
+    // 취소 비중 약 18%
+    const isCancelled = rand() < 0.18;
+    // 정상 결제: 일반→결제 완료 / 얼리버드·체험단→부분 환불(할인 적용분 환불)
+    const orderStatus = isCancelled
+      ? orderStatuses.cancelled
+      : payType === '일반 결제' ? orderStatuses.paid : orderStatuses.partial;
+    // 취소된 주문에만 취소 상태 노출
+    const cancelType = isCancelled ? cancelTypes[Math.floor(rand() * cancelTypes.length)] : null;
+    const isFree = rand() > 0.85;
+    const amount = isFree ? 0 : [9900, 12000, 21000, 29900, 31900, 32000, 35000, 42000][Math.floor(rand() * 8)];
+    const hostIdx = i % KOREAN_NICKS.length;
+    const ordererIdx = (i + 8) % KOREAN_NICKS.length;
+    rows.push({
+      orderId: 3024127 - i,
+      orderedAt,
+      orderStatus,
+      cancelType,
+      payType,
+      kind: kinds[Math.floor(rand() * 2)],
+      isClubSocial: rand() > 0.85,
+      hostId: 1002104 + hostIdx * 37,
+      hostNick: KOREAN_NICKS[hostIdx],
+      productId: 408219 - i * 11,
+      productName: SOCIALING_NAMES[i % SOCIALING_NAMES.length],
+      startAt,
+      amount,
+      ordererId: 5031882 + ordererIdx * 53,
+      ordererNick: KOREAN_NICKS[ordererIdx],
+      ordererPhone: `010-${pad(Math.floor(rand()*10000),4)}-${pad(Math.floor(rand()*10000),4)}`
+    });
+  }
+  return rows;
+}
+
+// Refund history for detail page
+function generateRefundHistory() {
+  return [
+    {
+      processedAt: new Date(2026, 3, 18, 14, 32),
+      qty: 10,
+      amount: 100000,
+      result: { key: '환불 완료', variant: 'success' },
+      type: '주문자 요청',
+      operator: '홍길동',
+      note: '결제일 5일 이내 환불 요청으로 전액 환불 처리했습니다. 원활한 환불 처리를 위해 고객님께 재화 사용 여부를 재확인했으며, 미사용 상태임을 확인했습니다.'
+    },
+    {
+      processedAt: new Date(2026, 3, 15, 11, 12),
+      qty: 10,
+      amount: 90000,
+      result: { key: '환불 완료', variant: 'success' },
+      type: '주문자 요청',
+      operator: '김현수',
+      note: '결제일로부터 5일 경과한 시점에 환불 요청이 접수되어 환불 정책에 따라 90% 환불 처리했습니다. 환불 금액 산정 기준은 채널별 환불 안내에 근거했습니다.'
+    }
+  ];
+}
+
+// 7일 이내 재화 획득 내역 for refund modal
+function generateRecentAcquisition() {
+  return [
+    { date: '25.08.11', payId: '1235233', type: '유료', status: { key: '결제 완료', variant: 'success' }, channel: '앱스토어', method: '카드', qty: 10, amount: 1000000, refundDate: '-', refundQty: '-', tid: 'T20250811001', refundAmount: '-' },
+    { date: '25.08.10', payId: null, type: '무료', status: null, channel: '-', method: '-', qty: 3, amount: null, refundDate: '-', refundQty: '-', tid: null, refundAmount: '-' },
+    { date: '25.08.06', payId: null, type: '무료', status: null, channel: '-', method: '-', qty: 5, amount: null, refundDate: '-', refundQty: '-', tid: null, refundAmount: '-' },
+    { date: '25.08.05', payId: '1234891', type: '유료', status: { key: '결제 완료', variant: 'success' }, channel: 'PG', method: '카드', qty: 20, amount: 200000, refundDate: '-', refundQty: '-', tid: 'T20250805001', refundAmount: '-' }
+  ];
+}
+
+function generateSocialMeetings(count = 12) {
+  const rand = seedRand(77);
+  const today = new Date(2026, 4, 12);
+  const cats = [
+    ['푸드·드링크'], ['취미'], ['액티비티'], ['액티비티'],
+    ['N잡·재테크'], ['자기계발'], ['연애·사랑'], ['액티비티'],
+    ['액티비티'], ['여행·나들이']
+  ];
+  const rows = [];
+  for (let i = 0; i < count; i++) {
+    const meetAt = new Date(today.getTime() + (Math.floor(rand() * 30) + 1) * 86400000);
+    const hour = 10 + Math.floor(rand() * 13);
+    const min = [0, 30][Math.floor(rand() * 2)];
+    const fee = rand() > 0.25 ? [15000, 21000, 29000, 31900, 32000, 33000, 39000, 39990][Math.floor(rand() * 8)] : 0;
+    const cap = [4, 5, 6, 8, 10, 12, 15, 20, 30, 60][Math.floor(rand() * 10)];
+    rows.push({
+      id: 408219 - i * 11,
+      status: { key: '모집 중', variant: 'info' },
+      fee,
+      isClub: rand() > 0.7,
+      kind: rand() > 0.15 ? '승인제' : '선착순',
+      category: cats[i % cats.length][0],
+      name: SOCIALING_NAMES[i % SOCIALING_NAMES.length],
+      meetAt,
+      hour, min,
+      location: ['영등포구청역 2호선', '평촌역 4호선', '천호역 5호선', '프론트서울', '스타벅스 청주서문점', '구월동로데오거리', '청량리역', '오월에요가 스피닝스튜디오', '합정역 2호선', '-'][i % 10],
+      hostId: 1002104 + (i % 12) * 37,
+      hostNick: KOREAN_NICKS[i % KOREAN_NICKS.length],
+      hostPhone: `010-${pad(Math.floor(rand()*10000),4)}-${pad(Math.floor(rand()*10000),4)}`,
+      capacity: cap,
+      joined: Math.max(1, Math.floor(rand() * 3)),
+      createdAt: new Date(2026, 4, 12),
+      deleted: false
+    });
+  }
+  return rows;
+}
+
+window.MuntoData = {
+  generatePayments, generateRecruitments, generateMembers, generateRefundHistory, generateRecentAcquisition,
+  generateSocialApplications, generateSocialMeetings,
+  fmtDate, fmtDateTime, fmtMoney, pad, KOREAN_NICKS, SOCIALING_NAMES
+};
+
+</script>
+
+<script type="text/babel" data-presets="react">
+
+
+// Common UI components
+
+const Icon = {
+  Menu: () =>
+  <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+      <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>,
+
+  Chev: () =>
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <path d="M4.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>,
+
+  Search: () =>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <circle cx="6" cy="6" r="4.2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M9.3 9.3L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>,
+
+  Close: () =>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>,
+
+  Download: () =>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M7 1.5v8M3.5 6L7 9.5 10.5 6M2 12h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>,
+
+  Check: () =>
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+      <path d="M2 5.2L4.3 7.5 8 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>,
+
+  Cal: () =>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <rect x="1.5" y="2.5" width="11" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M4 1v2M10 1v2M1.5 5.5h11" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>,
+
+  Info: () =>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M7 6v3.5M7 4.2v.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+
+};
+
+function Badge({ variant = 'neutral', children, dot = true }) {
+  return (
+    <span className={`badge badge-${variant}`}>
+      {dot && <span className="dot" />}
+      {children}
+    </span>);
+
+}
+
+function Sidebar({ active }) {
+  const [open, setOpen] = React.useState({ apply: true, experience: true });
+  const sections = [
+  {
+    key: 'munto', label: '문토 어드민', groups: [
+    { key: 'apply', label: '모임 신청 관리', items: [
+      { key: 'social-apply-list', label: '소셜링 신청 관리' },
+      { key: 'challenge-apply-list', label: '챌린지 신청 관리', dim: true }] },
+    { key: 'meeting', label: '모임 관리', items: [
+      { key: 'social-meeting-list', label: '소셜링 목록' },
+      { key: 'club-meeting-list', label: '클럽 목록', dim: true },
+      { key: 'challenge-meeting-list', label: '챌린지 목록', dim: true }] },
+    { key: 'vod', label: 'VOD 관리', items: [] },
+    { key: 'member', label: '멤버 관리', items: [] },
+    { key: 'experience', label: '체험단 관리', items: [
+      { key: 'payment-list', label: '초대권 결제 관리' },
+      { key: 'recruit-list', label: '체험단 모집 관리', dim: true }]
+    },
+    { key: 'cs', label: 'CS 관리', items: [] },
+    { key: 'settle', label: '정산 관리', items: [] },
+    { key: 'ops', label: '운영 관리', items: [] },
+    { key: 'mkt', label: '마케팅 관리', items: [] },
+    { key: 'feed', label: '피드 댓글 관리', items: [] }]
+
+  },
+  { key: 'dating', label: '데이팅 어드민', groups: [] }];
+
+  return (
+    <aside className="sidebar">
+      <div className="sidebar-brand">
+        <span className="logo">MUNTO</span>
+        <span className="burger"><Icon.Menu /></span>
+      </div>
+      <nav className="sidebar-nav">
+        {sections.map((s, si) =>
+        <div key={s.key} className="nav-section">
+            <div className="nav-section-header">
+              <span className="ic"><Icon.Menu /></span>
+              <span>{s.label}</span>
+              <span className="chev expand"><Icon.Chev /></span>
+            </div>
+            {s.groups.map((g) => {
+            const hasItems = g.items.length > 0;
+            const isActive = hasItems && g.items.some((i) => i.key === active);
+            const isOpen = !!open[g.key] || isActive;
+            return (
+              <div key={g.key} className={`nav-group ${isOpen ? 'open' : ''} ${isActive ? 'active' : ''}`}>
+                  <div className="nav-group-header" onClick={() => hasItems && setOpen((o) => ({ ...o, [g.key]: !isOpen }))}>
+                    <span className="label">{g.label}</span>
+                    <span className="chev"><Icon.Chev /></span>
+                  </div>
+                  {hasItems &&
+                <div className="nav-sub">
+                      {g.items.map((it) =>
+                  <a key={it.key}
+                  className={`nav-item ${active === it.key ? 'active' : ''} ${it.dim && active !== it.key ? 'nav-item-dim' : ''}`}
+                  href={`#${it.key}`}>{it.label}</a>
+                  )}
+                    </div>
+                }
+                </div>);
+
+          })}
+          </div>
+        )}
+      </nav>
+    </aside>);
+
+}
+
+function TopBar() {
+  return (
+    <header className="topbar">
+      <span className="admin-user">admin@munto.kr</span>
+      <button className="btn-logout">로그아웃</button>
+    </header>);
+
+}
+
+function Breadcrumb({ items }) {
+  return (
+    <div className="breadcrumb">
+      {items.map((t, i) =>
+      <React.Fragment key={i}>
+          {i > 0 && <span className="sep">›</span>}
+          <span className={i === items.length - 1 ? 'cur' : ''}>{t}</span>
+        </React.Fragment>
+      )}
+    </div>);
+
+}
+
+function Toast({ message, onDone }) {
+  React.useEffect(() => {
+    const t = setTimeout(onDone, 2800);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div className="toast">
+      <span className="check"><Icon.Check /></span>
+      <span>{message}</span>
+    </div>);
+
+}
+
+Object.assign(window, { Icon, Badge, Sidebar, TopBar, Breadcrumb, Toast });
+
+
+// Screen 1: 체험단 결제 관리 (리스트)
+function PaymentListScreen({ onOpenDetail, onOpenRefund, onOpenMemo, onDownload, memos = {} }) {
+  const [rows] = React.useState(() => window.MuntoData.generatePayments(24));
+  const [searchField, setSearchField] = React.useState('memberId');
+  const [searchVal, setSearchVal] = React.useState('');
+  const [startDate, setStartDate] = React.useState('26.03.01');
+  const [endDate, setEndDate] = React.useState('26.04.20');
+  const [page, setPage] = React.useState(1);
+  const pageSize = 10;
+
+  const { fmtDate, fmtMoney } = window.MuntoData;
+
+  const totalPays = 2847;
+  const totalAmount = 428930000;
+  const fullRefunds = 24;
+  const partialRefunds = 11;
+  const totalRefundAmount = 8420000;
+  const avgTicket = 150680;
+  const avgQty = 15;
+
+  const totalPages = Math.ceil(rows.length / pageSize);
+  const pageRows = rows.slice((page - 1) * pageSize, page * pageSize);
+
+  return (
+    <>
+      <Breadcrumb items={['체험단 관리', '초대권 결제 관리']} />
+      <h1 className="page-title">초대권 결제 관리</h1>
+
+      {/* 검색 */}
+      <div className="card">
+        <div className="card-body">
+          <div className="form-row">
+            <div className="field" style={{ minWidth: 140 }}>
+              <label>검색어</label>
+              <select className="select" value={searchField} onChange={(e) => setSearchField(e.target.value)}>
+                <option value="memberId">멤버ID</option>
+                <option value="nickname">닉네임</option>
+                <option value="phone">연락처</option>
+              </select>
+            </div>
+            <div className="field" style={{ flex: 1, minWidth: 300 }}>
+              <label>&nbsp;</label>
+              <input className="input" value={searchVal} onChange={(e) => setSearchVal(e.target.value)} placeholder="검색어를 입력하세요" />
+            </div>
+            <div className="field">
+              <label>시작일</label>
+              <input className="input" value={startDate} onChange={(e) => setStartDate(e.target.value)} placeholder="YY.MM.DD" style={{ width: 130 }} />
+            </div>
+            <div className="field">
+              <label>종료일</label>
+              <input className="input" value={endDate} onChange={(e) => setEndDate(e.target.value)} placeholder="YY.MM.DD" style={{ width: 130 }} />
+            </div>
+            <button className="btn btn-primary">검색</button>
+          </div>
+        </div>
+      </div>
+
+      {/* 호스트별 구매 이력 */}
+      <div className="section-label" style={{ marginTop: 24 }}>호스트별 구매 이력</div>
+      <div className="card">
+        <div className="table-toolbar">
+          <div className="left">
+            <span className="text-muted" style={{ fontSize: 12 }}>전체 <b className="text-strong">{rows.length}</b>건</span>
+          </div>
+          <div className="right">
+            <button className="btn btn-success btn-sm" onClick={onDownload}>
+              <Icon.Download /> 엑셀 다운로드
+            </button>
+          </div>
+        </div>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>결제일</th>
+                <th>결제상태</th>
+                <th>결제ID</th>
+                <th className="num">결제 초대권 수</th>
+                <th className="num">결제액</th>
+                <th data-comment-anchor="37339db4fa-th-275-17">멤버ID</th>
+                <th>연락처</th>
+                <th data-comment-anchor="5adb9704ac-th-250-17">환불 가능일</th>
+                <th>환불요청일</th>
+                <th>TID</th>
+                <th>메모</th>
+                <th>환불 처리</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageRows.map((r, i) =>
+              <tr key={i}>
+                  <td>{fmtDate(r.paidAt)}</td>
+                  <td><Badge variant={r.status.variant}>{r.status.key}</Badge></td>
+                  <td><a className="link" onClick={() => onOpenDetail(r)}>{r.id}</a></td>
+                  <td className="num mono">{r.qty}</td>
+                  <td className="num mono text-strong">₩{fmtMoney(r.amount)}</td>
+                  <td className="muted">{r.memberId}</td>
+                  <td className="muted mono">{r.phone}</td>
+                  <td className="mono">{fmtDate(r.refundAvailAt)}</td>
+                  <td className={r.refundRequestAt ? 'text-danger mono' : 'dim'}>{r.refundRequestAt ? fmtDate(r.refundRequestAt) : '-'}</td>
+                  <td><a className="link">{r.tid.slice(0, 8)}…</a></td>
+                  <td>
+                    <button className="btn btn-xs btn-outline" onClick={() => onOpenMemo(r)}>
+                      메모 {memos[r.id] && memos[r.id].length > 0 ? <span style={{ marginLeft: 4, padding: '0 5px', background: 'var(--primary-50)', color: '#fff', borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{memos[r.id].length}</span> : null}
+                    </button>
+                  </td>
+                  <td>
+                    {r.refundable ?
+                  <button className="btn btn-xs btn-success" onClick={() => onOpenRefund(r)}>환불 처리</button> :
+
+                  <button className="btn btn-xs disabled" disabled>환불 불가</button>
+                  }
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="table-toolbar" style={{ borderBottom: 'none', borderTop: '1px solid var(--admin-card-border)' }}>
+          <div className="left"><span className="text-muted" style={{ fontSize: 12 }}>{(page - 1) * pageSize + 1} – {Math.min(page * pageSize, rows.length)} of {rows.length}</span></div>
+          <div className="right">
+            <div className="pagination">
+              <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>‹</button>
+              {Array.from({ length: totalPages }).map((_, i) =>
+              <button key={i} className={page === i + 1 ? 'active' : ''} onClick={() => setPage(i + 1)}>{i + 1}</button>
+              )}
+              <button disabled={page === totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>);
+
+}
+
+window.PaymentListScreen = PaymentListScreen;
+
+
+// Screen 1-1: 결제 상세
+function PaymentDetailScreen({ payment, onBack, onOpenRefund, onOpenMemo, memos = {} }) {
+  const { fmtDate, fmtDateTime, fmtMoney, generateRefundHistory } = window.MuntoData;
+  const p = payment || {
+    id: 1232130, paidAt: new Date(2026, 3, 8, 24, 11), qty: 100, amount: 1000000,
+    channel: '카드', tid: 'T20260408001',
+    nickname: '이슬', memberId: 'munto0001', phone: '010-0000-0000',
+    joinedAt: '25.08.27', lastLogin: '26.04.19', lastActive: '26.04.20',
+    within5: true, used: false
+  };
+  // 정책 기반 자동 계산
+  const within5 = p.within5 !== undefined ? p.within5 : true;
+  const refundRatio = within5 ? 1.0 : 0.9;
+  const refundAmount = Math.floor((p.amount || 0) * refundRatio);
+  const refundQty = within5 ? p.qty : Math.floor(p.qty * 0.9);
+  const newStatus = within5 ?
+  { key: '전체 환불', variant: 'danger' } :
+  { key: '부분 환불', variant: 'warn' };
+  const baseHist = generateRefundHistory()[0];
+  const history = [{
+    ...baseHist,
+    qty: refundQty,
+    amount: refundAmount,
+    newStatus
+  }];
+  const memoList = memos[p.id] || [];
+
+  return (
+    <>
+      <Breadcrumb items={['체험단 관리', '초대권 결제 관리', '결제 상세']} />
+      <div className="flex between items-center" style={{ marginBottom: 20 }}>
+        <h1 className="page-title" style={{ margin: 0 }}>결제 상세</h1>
+        <button className="btn btn-outline btn-sm" onClick={onBack}>← 목록으로</button>
+      </div>
+
+      <div className="section-label">결제자 정보</div>
+      <div className="card">
+        <dl className="dl">
+          <div><dt>닉네임</dt><dd className="link">{p.nickname}</dd></div>
+          <div><dt>멤버ID</dt><dd>{p.memberId}</dd></div>
+          <div><dt>연락처</dt><dd className="mono">{p.phone}</dd></div>
+          <div><dt>가입 일자</dt><dd>{p.joinedAt || '25.08.27'}</dd></div>
+          <div><dt>최종 로그인</dt><dd>{p.lastLogin || '26.04.19'}</dd></div>
+          <div><dt>최종 활동일</dt><dd>{p.lastActive || '26.04.20'}</dd></div>
+        </dl>
+      </div>
+
+      <div className="section-label">결제현황</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>결제일시</th>
+                <th>결제ID</th>
+                <th className="num">결제 재화 수</th>
+                <th className="num">결제액</th>
+                <th>TID</th>
+                <th style={{ width: 90 }}>메모</th>
+                <th style={{ width: 100 }}>환불 처리</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="mono">{fmtDateTime(p.paidAt)}</td>
+                <td><a className="link">{p.id}</a></td>
+                <td className="num mono">{p.qty}</td>
+                <td className="num mono text-strong">₩{fmtMoney(p.amount)}</td>
+                <td><a className="link">{p.tid}</a></td>
+                <td>
+                  <button className="btn btn-xs btn-outline" onClick={() => onOpenMemo && onOpenMemo(p)}>
+                    메모 {memoList.length > 0 ? <span style={{ marginLeft: 4, padding: '0 5px', background: 'var(--primary-50)', color: '#fff', borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{memoList.length}</span> : null}
+                  </button>
+                </td>
+                <td>
+                  <button className="btn btn-xs btn-success" onClick={() => onOpenRefund(p)}>환불 처리</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="section-label">주문상태변동이력</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th style={{ width: 150 }}>상태 변동일</th>
+                <th style={{ width: 110 }}>주문 상태</th>
+                <th className="num" style={{ width: 110 }}>환불 초대권 수</th>
+                <th className="num" style={{ width: 130 }}>환불 금액</th>
+                <th style={{ width: 130 }}>유형</th>
+                <th style={{ width: 100 }}>처리자</th>
+                <th>메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((h, i) =>
+              <tr key={i}>
+                  <td className="mono">{fmtDateTime(h.processedAt)}</td>
+                  <td><Badge variant={h.newStatus.variant}>{h.newStatus.key}</Badge></td>
+                  <td className="num mono">{h.qty}</td>
+                  <td className="num mono text-strong">₩{fmtMoney(h.amount)}</td>
+                  <td>{h.type}</td>
+                  <td>{h.operator}</td>
+                  <td style={{ whiteSpace: 'normal', maxWidth: 520, lineHeight: 1.6, fontSize: 12.5, color: 'var(--fg-muted)' }}>
+                    {h.note}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>);
+
+}
+
+window.PaymentDetailScreen = PaymentDetailScreen;
+
+
+// Refund processing modal — 환불 처리
+// 관리자는 정책 내용을 보고 확인 버튼만 누름. 환불 비율은 자동 적용.
+function RefundModal({ payment, onClose, onConfirm }) {
+  const { fmtMoney } = window.MuntoData;
+  const p = payment || { qty: 100, amount: 1000000, id: 1232130, within5: true, used: false };
+
+  // 환불 정책 판단
+  const policy = p.used ? 'used' : p.within5 ? 'within5' : 'after5';
+  const ratio = policy === 'within5' ? 1.0 : policy === 'after5' ? 0.9 : 0;
+  const finalAmount = Math.floor((p.amount || 0) * ratio);
+  const [step, setStep] = React.useState('review'); // review | confirm | done
+
+  const policyLabel = {
+    within5: '사용 시작 전 + 결제 5일 이내',
+    after5: '사용 시작 전 + 결제 5일 이후',
+    used: '사용 시작 후'
+  }[policy];
+
+  if (step === 'confirm') {
+    return (
+      <div className="modal-backdrop" onClick={onClose}>
+        <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 440 }}>
+          <div className="modal-head">
+            <div className="title">환불 처리 확인</div>
+            <button className="close" onClick={onClose}><Icon.Close /></button>
+          </div>
+          <div className="modal-body" style={{ padding: '24px 24px 28px' }}>
+            <div style={{ fontSize: 15, lineHeight: 1.6, fontWeight: 600, marginBottom: 8 }}>
+              ₩{fmtMoney(finalAmount)} 환불을 진행하시겠습니까?
+            </div>
+            <div className="text-muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
+              한 번 환불 처리된 건은 되돌릴 수 없습니다.
+            </div>
+          </div>
+          <div className="modal-foot" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+            <button className="btn btn-outline btn-full" style={{ borderTop: 'none', borderLeft: 'none', borderBottom: 'none', borderRight: '1px solid var(--admin-card-border)' }} onClick={() => setStep('review')}>취소</button>
+            <button className="btn btn-success btn-full" onClick={() => setStep('done')}>확인</button>
+          </div>
+        </div>
+      </div>);
+  }
+
+  if (step === 'done') {
+    return (
+      <div className="modal-backdrop" onClick={onClose}>
+        <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 440 }}>
+          <div className="modal-head">
+            <div className="title">환불 처리 완료</div>
+            <button className="close" onClick={onClose}><Icon.Close /></button>
+          </div>
+          <div className="modal-body" style={{ padding: '32px 24px', textAlign: 'center' }}>
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--secondary-05)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16, color: 'var(--secondary-50)' }}>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path d="M6 14.5L11.5 20L22 8.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <div style={{ fontSize: 15, lineHeight: 1.6, fontWeight: 600, marginBottom: 6 }}>
+              환불 처리가 완료되었습니다.
+            </div>
+            <div className="text-muted" style={{ fontSize: 13 }}>
+              ₩{fmtMoney(finalAmount)}이 환불되었습니다.
+            </div>
+          </div>
+          <div className="modal-foot">
+            <button className="btn btn-primary btn-full" onClick={() => onConfirm(p.qty, finalAmount)}>확인</button>
+          </div>
+        </div>
+      </div>);
+  }
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 640 }}>
+        <div className="modal-head">
+          <div className="title">환불 처리</div>
+          <button className="close" onClick={onClose}><Icon.Close /></button>
+        </div>
+        <div className="modal-body">
+          <div className="section-label" style={{ margin: '0 0 10px', fontSize: 14 }}>환불 정책 (자동 적용)</div>
+          <div style={{ border: '1px solid var(--admin-card-border)', borderRadius: 8, padding: '14px 16px', marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--secondary-05)' }}>
+            <div style={{ fontSize: 14, fontWeight: 600 }}>{policyLabel}</div>
+            <div className="num text-strong" style={{ fontSize: 18 }}>{Math.round(ratio * 100)}%</div>
+          </div>
+
+          <div className="section-label" style={{ margin: '0 0 10px', fontSize: 14 }}>환불 정보</div>
+          <div className="kpi-grid cols-4" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: 8 }}>
+            <div className="kpi-cell">
+              <div className="kpi-label">결제 초대권 수</div>
+              <div className="kpi-value" style={{ fontSize: 18 }}>{p.qty}<span className="unit"> 매</span></div>
+            </div>
+            <div className="kpi-cell">
+              <div className="kpi-label">결제액</div>
+              <div className="kpi-value" style={{ fontSize: 18 }}>₩{fmtMoney(p.amount)}</div>
+            </div>
+            <div className="kpi-cell">
+              <div className="kpi-label">자동 산정 환불액</div>
+              <div className="kpi-value text-success" style={{ fontSize: 18 }}>
+                {policy === 'used' ? '환불 불가' : `₩${fmtMoney(finalAmount)}`}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="modal-foot">
+          <button className="btn btn-success btn-full" onClick={() => setStep('confirm')}
+          disabled={policy === 'used'}>
+            {policy === 'used' ? '환불 불가' : '환불 처리 확인'}
+          </button>
+        </div>
+      </div>
+    </div>);
+
+}
+
+window.RefundModal = RefundModal;
+
+
+// Screen 2: 체험단 모집 관리 (리스트)
+function RecruitListScreen({ onOpenDetail }) {
+  const [rows] = React.useState(() => window.MuntoData.generateRecruitments(20));
+  const [page, setPage] = React.useState(1);
+  const pageSize = 10;
+
+  const { fmtDate, fmtMoney } = window.MuntoData;
+  const totalPages = Math.ceil(rows.length / pageSize);
+  const pageRows = rows.slice((page - 1) * pageSize, page * pageSize);
+
+  return (
+    <>
+      <Breadcrumb items={['체험단 모집 관리']} />
+      <h1 className="page-title">체험단 모집 관리</h1>
+
+      {/* 검색 */}
+      <div className="card">
+        <div className="card-body">
+          <div className="form-row">
+            <div className="field" style={{ minWidth: 140 }}>
+              <label>검색어</label>
+              <select className="select">
+                <option>멤버ID</option>
+                <option>닉네임</option>
+                <option>연락처</option>
+                <option>모집명</option>
+                <option>모집ID</option>
+              </select>
+            </div>
+            <div className="field" style={{ flex: 1, minWidth: 280 }}>
+              <label>&nbsp;</label>
+              <input className="input" placeholder="검색어를 입력하세요" />
+            </div>
+            <div className="field">
+              <label>시작일</label>
+              <input className="input" defaultValue="26.03.01" style={{ width: 130 }} />
+            </div>
+            <div className="field">
+              <label>종료일</label>
+              <input className="input" defaultValue="26.04.20" style={{ width: 130 }} />
+            </div>
+            <button className="btn btn-primary">검색</button>
+          </div>
+        </div>
+      </div>
+
+      {/* 체험단 모집 관리 테이블 */}
+      <div className="section-label" style={{ marginTop: 24 }}>체험단 모집 관리</div>
+      <div className="card">
+        <div className="table-toolbar">
+          <div className="left">
+            <span className="text-muted" style={{ fontSize: 12 }}>전체 <b className="text-strong">{rows.length}</b>건</span>
+          </div>
+        </div>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>생성일</th>
+                <th>상태</th>
+                <th>모집ID</th>
+                <th>모임일</th>
+                <th className="num">결제액</th>
+                <th className="num">할인 참가비</th>
+                <th>모집 구분</th>
+                <th>카테고리</th>
+                <th>모집명</th>
+                <th>장소</th>
+                <th>호스트ID</th>
+                <th>연락처</th>
+                <th className="num">모집인원</th>
+                <th className="num">신청인원</th>
+                <th className="num">확정인원</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageRows.map((r, i) =>
+              <tr key={i}>
+                  <td className="muted mono">{fmtDate(r.createdAt)}</td>
+                  <td><Badge variant={r.status.variant}>{r.status.key}</Badge></td>
+                  <td><a className="link" onClick={() => onOpenDetail(r)}>{r.id}</a></td>
+                  <td className="mono">{fmtDate(r.meetDate)}</td>
+                  <td className="num mono">{r.fee === 0 ? <span className="text-muted">무료</span> : <span className="text-muted">₩{fmtMoney(r.fee)}</span>}</td>
+                  <td className="num mono">{r.fee === 0 ? <span className="text-muted">–</span> : <span className="text-strong" style={{ fontSize: 13, fontWeight: 700 }}>₩{fmtMoney(Math.floor(r.fee * 0.2))}</span>}</td>
+                  <td><span className="pill">{r.kind}</span></td>
+                  <td>{r.category}</td>
+                  <td style={{ maxWidth: 260, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={r.name}>{r.name}</td>
+                  <td className="muted">{r.place}</td>
+                  <td className="muted">{r.memberId}</td>
+                  <td className="muted mono">{r.phone}</td>
+                  <td className="num mono">{r.capacity}</td>
+                  <td className="num mono">{r.applied}</td>
+                  <td className="num mono">{r.confirmed}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="table-toolbar" style={{ borderBottom: 'none', borderTop: '1px solid var(--admin-card-border)' }}>
+          <div className="left"><span className="text-muted" style={{ fontSize: 12 }}>{(page - 1) * pageSize + 1} – {Math.min(page * pageSize, rows.length)} of {rows.length}</span></div>
+          <div className="right">
+            <div className="pagination">
+              <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>‹</button>
+              {Array.from({ length: totalPages }).map((_, i) =>
+              <button key={i} className={page === i + 1 ? 'active' : ''} onClick={() => setPage(i + 1)}>{i + 1}</button>
+              )}
+              <button disabled={page === totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>);
+
+}
+
+window.RecruitListScreen = RecruitListScreen;
+
+
+// Screen 2-1: 모집 상세 관리
+function RecruitDetailScreen({ recruitment, onBack }) {
+  const { fmtDate, fmtDateTime, fmtMoney, generateMembers } = window.MuntoData;
+  const r = recruitment || {
+    id: 30210, status: { key: '모집 중', variant: 'success' }, fee: 20000,
+    category: '운동/액티비티', subCategory: '러닝', name: '강동 유스드림 새벽 러닝 클럽',
+    meetDate: new Date(2026, 4, 5, 6, 0), place: '강동 유스드림 일대',
+    memberId: 'munto2001', nickname: '민지', phone: '010-1234-5678',
+    capacity: 15, applied: 18, confirmed: 12, male: 6, female: 6,
+    chatLink: 'https://open.kakao.com/o/muntorun'
+  };
+  const members = React.useMemo(() => generateMembers(12), []);
+  const [toggledAttend, setToggledAttend] = React.useState({});
+
+  const [confirmTarget, setConfirmTarget] = React.useState(null);
+
+  const toggleAttend = (idx, currentlyAttended) => {
+    if (currentlyAttended) return; // 참가를 미참가로 변경 불가
+    setToggledAttend((s) => ({ ...s, [idx]: !s[idx] }));
+  };
+
+  return (
+    <>
+      <Breadcrumb items={['체험단 모집 관리', '모집 목록', '모집 상세']} />
+      <div className="flex between items-center" style={{ marginBottom: 20 }}>
+        <div>
+          <h1 className="page-title" style={{ margin: 0 }}>{r.name}</h1>
+          <div className="text-muted" style={{ fontSize: 13, marginTop: 4 }}>모집ID · <span className="mono">{r.id}</span></div>
+        </div>
+        <button className="btn btn-outline btn-sm" onClick={onBack}>← 목록으로</button>
+      </div>
+
+      <div className="section-label">모집 상세 정보</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>상태</th>
+                <th className="num">결제액</th>
+                <th>환급율</th>
+                <th className="num">환급액</th>
+                <th className="num">할인 참가비</th>
+                <th>카테고리</th>
+                <th>세부 카테고리</th>
+                <th>모임일</th>
+                <th>장소</th>
+                <th>호스트ID</th>
+                <th>닉네임</th>
+                <th>연락처</th>
+                <th>채팅방 링크</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><Badge variant={r.status.variant}>{r.status.key}</Badge></td>
+                <td className="num mono">{r.fee === 0 ? <span className="text-muted">무료</span> : `₩${fmtMoney(r.fee)}`}</td>
+                <td className="mono">80%</td>
+                <td className="num mono">{r.fee === 0 ? <span className="dim">-</span> : `₩${fmtMoney(Math.floor(r.fee * 0.8))}`}</td>
+                <td className="num mono text-strong">{r.fee === 0 ? <span className="dim">-</span> : `₩${fmtMoney(Math.floor(r.fee * 0.2))}`}</td>
+                <td>{r.category}</td>
+                <td>{r.subCategory}</td>
+                <td className="mono">{fmtDate(r.meetDate)}</td>
+                <td>{r.place}</td>
+                <td className="muted">{r.memberId}</td>
+                <td className="link">{r.nickname}</td>
+                <td className="muted mono">{r.phone}</td>
+                <td><a className="link">{r.chatLink || 'https://sendbird.com/room/munto-soc-30210'}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="section-label">체험단 참여 정보</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th className="num">체험단 모집 인원</th>
+                <th className="num">전체 신청 수</th>
+                <th className="num">확정 인원 수</th>
+                <th className="num">남성</th>
+                <th className="num">여성</th>
+                <th className="num">결제액</th>
+                <th className="num">환급액</th>
+                <th className="num">할인 참가비</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(() => {
+                const confirmed = members.filter((m) => m.status.key === '승인 완료');
+                const male = Math.floor(confirmed.length / 2);
+                const female = confirmed.length - male;
+                const totalPaid = confirmed.reduce((a, m) => a + m.paid, 0);
+                const totalRefund = confirmed.reduce((a, m) => a + m.refundAmt, 0);
+                const totalFee = confirmed.reduce((a, m) => a + m.partFee, 0);
+                return (
+                  <tr>
+                    <td className="num mono">{r.capacity}</td>
+                    <td className="num mono">{members.length}</td>
+                    <td className="num mono text-strong">{confirmed.length}</td>
+                    <td className="num mono" style={{ color: '#4A6D9A' }}>{male}</td>
+                    <td className="num mono" style={{ color: '#B04268' }}>{female}</td>
+                    <td className="num mono">₩{fmtMoney(totalPaid)}</td>
+                    <td className="num mono">₩{fmtMoney(totalRefund)}</td>
+                    <td className="num mono text-strong">₩{fmtMoney(totalFee)}</td>
+                  </tr>);
+              })()}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="section-label">체험단 참가 멤버 목록</div>
+      <div className="card">
+        <div className="table-toolbar">
+          <div className="left">
+            <span className="text-muted" style={{ fontSize: 12 }}>전체 <b className="text-strong">{members.length}</b>명</span>
+            <span className="pill" style={{ marginLeft: 8 }}>신청 순</span>
+          </div>
+          <div className="right">
+            <button className="btn btn-outline btn-sm"><Icon.Download /> 엑셀 다운로드</button>
+          </div>
+        </div>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>신청 일시</th>
+                <th>상태</th>
+                <th>결제ID</th>
+                <th>결제 상태</th>
+                <th>승인 일시</th>
+                <th>멤버ID</th>
+                <th>닉네임</th>
+                <th>연락처</th>
+                <th className="num">결제액</th>
+                <th className="num">환급액</th>
+                <th className="num">할인 참가비</th>
+                <th>환급 여부</th>
+                <th>모임 후기 작성</th>
+                <th>현장 참석</th>
+                <th>TID</th>
+                <th>참석 수정</th>
+              </tr>
+            </thead>
+            <tbody>
+              {members.map((m, i) => {
+                const attended = m.attended || toggledAttend[i];
+                return (
+                  <tr key={i}>
+                    <td className="mono">{m.idx}</td>
+                    <td className="mono" style={{ fontSize: 12 }}>{fmtDateTime(m.appliedAt)}</td>
+                    <td><Badge variant={m.status.variant}>{m.status.key}</Badge></td>
+                    <td><a className="link">{m.payId}</a></td>
+                    <td><Badge variant={m.payStatus.variant}>{m.payStatus.key}</Badge></td>
+                    <td className="mono" style={{ fontSize: 12 }}>
+                      {m.approvedAt ? fmtDateTime(m.approvedAt) : <span className="dim">-</span>}
+                    </td>
+                    <td className="muted">{m.memberId}</td>
+                    <td className="link">{m.nickname}</td>
+                    <td className="muted mono">{m.phone}</td>
+                    <td className="num mono">₩{fmtMoney(m.paid)}</td>
+                    <td className="num mono">₩{fmtMoney(m.refundAmt)}</td>
+                    <td className="num mono text-strong">₩{fmtMoney(m.partFee)}</td>
+                    <td>
+                      <Badge variant={m.reviewed && attended ? 'success' : 'neutral'} dot={false}>{m.reviewed && attended ? 'Y' : 'N'}</Badge>
+                    </td>
+                    <td>
+                      <Badge variant={m.reviewed ? 'success' : 'neutral'} dot={false}>{m.reviewed ? 'Y' : 'N'}</Badge>
+                    </td>
+                    <td>
+                      <Badge variant={attended ? 'success' : 'neutral'} dot={false}>{attended ? 'Y' : 'N'}</Badge>
+                    </td>
+                    <td><a className="link">{m.tid.slice(0, 8)}…</a></td>
+                    <td>
+                      {attended ?
+                      <button className="btn btn-xs disabled" disabled title="현장 참석한 멤버는 수정할 수 없습니다">수정 불가</button> :
+
+                      <button className="btn btn-xs btn-success" onClick={() => setConfirmTarget(i)}>수정</button>
+                      }
+                    </td>
+                  </tr>);
+
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {confirmTarget !== null &&
+      <div className="modal-backdrop" onClick={() => setConfirmTarget(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 440 }}>
+            <div className="modal-head">
+              <div className="title">참석 수정</div>
+              <button className="close" onClick={() => setConfirmTarget(null)}><Icon.Close /></button>
+            </div>
+            <div className="modal-body" style={{ padding: '24px 24px 28px' }}>
+              <div style={{ fontSize: 15, lineHeight: 1.6, fontWeight: 600, marginBottom: 8 }}>
+                해당 멤버를 참석으로 수정하시겠습니까?
+              </div>
+              <div className="text-muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
+                참석으로 수정 후에는 미참석으로 되돌릴 수 없습니다.
+              </div>
+            </div>
+            <div className="modal-foot" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+              <button className="btn btn-outline btn-full" style={{ borderTop: 'none', borderLeft: 'none', borderBottom: 'none', borderRight: '1px solid var(--admin-card-border)' }} onClick={() => setConfirmTarget(null)}>취소</button>
+              <button className="btn btn-success btn-full" onClick={() => {
+              setToggledAttend((s) => ({ ...s, [confirmTarget]: true }));
+              setConfirmTarget(null);
+            }} data-comment-anchor="b768c6858c-button-823-15">확인</button>
+            </div>
+          </div>
+        </div>
+      }
+    </>);
+
+}
+
+window.RecruitDetailScreen = RecruitDetailScreen;
+
+
+// Screen 5: 소셜링 신청 관리 (모임 신청 관리 > 소셜링 신청 관리)
+function SocialApplyListScreen({ onOpenDetail }) {
+  const { fmtDate, fmtDateTime, fmtMoney } = window.MuntoData;
+  const [rows] = React.useState(() => window.MuntoData.generateSocialApplications(28));
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [searchField, setSearchField] = React.useState('주문자');
+  const [search, setSearch] = React.useState('');
+  const [statusFilter, setStatusFilter] = React.useState('전체');
+
+  const filtered = React.useMemo(() => {
+    let xs = rows;
+    if (statusFilter !== '전체') {
+      const map = { '모집중': '결제 완료', '진행확정': '서비스 완료', '서비스완료': '서비스 완료', '취소완료': '취소 완료' };
+      const target = map[statusFilter];
+      if (target) xs = xs.filter((r) => r.orderStatus.key === target);
+    }
+    if (search.trim()) {
+      const q = search.trim();
+      xs = xs.filter((r) => {
+        if (searchField === '주문자') return r.ordererNick.includes(q);
+        if (searchField === '주문자ID') return String(r.ordererId).includes(q);
+        if (searchField === '주문ID') return String(r.orderId).includes(q);
+        if (searchField === '상품명') return r.productName.includes(q);
+        if (searchField === 'PG TID') return false;
+        return true;
+      });
+    }
+    return xs;
+  }, [rows, search, searchField, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const pageRows = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+  React.useEffect(() => {setPage(1);}, [pageSize, statusFilter, search]);
+
+  return (
+    <>
+      <Breadcrumb items={['모임 신청 관리', '소셜링 신청 관리']} />
+      <h1 className="page-title">소셜링 신청 관리</h1>
+
+      {/* 검색 카드 */}
+      <div className="card">
+        <div className="card-body">
+          <div className="form-row">
+            <div className="field" style={{ minWidth: 140 }}>
+              <label>검색어</label>
+              <select className="select" value={searchField} onChange={(e) => setSearchField(e.target.value)}>
+                <option>주문자</option>
+                <option>주문자ID</option>
+                <option>주문ID</option>
+                <option>상품명</option>
+                <option>PG TID</option>
+              </select>
+            </div>
+            <div className="field" style={{ flex: 1, minWidth: 280 }}>
+              <label>&nbsp;</label>
+              <input className="input" placeholder="검색어를 입력하세요"
+              value={search} onChange={(e) => setSearch(e.target.value)} />
+            </div>
+            <div className="field">
+              <label>시작일</label>
+              <input className="input" defaultValue="26.05.01" style={{ width: 130 }} />
+            </div>
+            <div className="field">
+              <label>종료일</label>
+              <input className="input" defaultValue="26.05.12" style={{ width: 130 }} />
+            </div>
+            <div className="field">
+              <label>&nbsp;</label>
+              <select className="select" style={{ width: 110 }}>
+                <option>주문일</option>
+                <option>모임일</option>
+              </select>
+            </div>
+            <button className="btn btn-primary">검색</button>
+          </div>
+          <div className="form-row" style={{ marginTop: 14 }}>
+            <div className="field" style={{ flex: 1 }}>
+              <label>모집상태</label>
+              <div style={{ display: 'flex', gap: 18, alignItems: 'center', height: 36 }}>
+                {['전체', '모집중', '진행확정', '서비스완료', '취소완료'].map((s) =>
+                <label key={s} className="checkbox" style={{ cursor: 'pointer', userSelect: 'none' }}>
+                    <input type="radio" name="status" checked={statusFilter === s} onChange={() => setStatusFilter(s)} />
+                    <span style={{ fontSize: 13 }}>{s}</span>
+                  </label>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 테이블 */}
+      <div className="section-label" style={{ marginTop: 24 }}>주문 현황</div>
+      <div className="card">
+        <div className="table-toolbar">
+          <div className="left">
+            <select className="select" style={{ height: 30, padding: '4px 24px 4px 10px', fontSize: 12 }}
+            value={pageSize} onChange={(e) => setPageSize(parseInt(e.target.value))}>
+              <option value={10}>10개</option>
+              <option value={20}>20개</option>
+              <option value={50}>50개</option>
+            </select>
+            <span className="text-muted" style={{ fontSize: 12, marginLeft: 12 }}>전체 <b className="text-strong">{filtered.length}</b>건</span>
+          </div>
+          <div className="right" style={{ display: 'flex', gap: 8 }}>
+            <button className="btn btn-success btn-sm"><Icon.Download /> 엑셀 다운</button>
+          </div>
+        </div>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>주문일시</th>
+                <th>주문상태</th>
+                <th>주문ID</th>
+                <th>결제 유형</th>
+                <th>취소 상태</th>
+                <th>상품 종류</th>
+                <th>클럽 소셜링 여부</th>
+                <th>호스트ID</th>
+                <th>호스트명</th>
+                <th>상품ID</th>
+                <th>모임명</th>
+                <th>모임일</th>
+                <th className="num">결제 금액</th>
+                <th>주문자ID</th>
+                <th>주문자명</th>
+                <th>주문자 연락처</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageRows.map((r, i) =>
+              <tr key={i}>
+                  <td className="mono" style={{ fontSize: 12 }}>{fmtDate(r.orderedAt)} {['월', '화', '수', '목', '금', '토', '일'][(r.orderedAt.getDay() + 6) % 7]}</td>
+                  <td><Badge variant={r.orderStatus.variant}>{r.orderStatus.key}</Badge></td>
+                  <td><a className="link" onClick={() => onOpenDetail && onOpenDetail(r)}>{r.orderId}</a></td>
+                  <td>{r.payType}</td>
+                  <td>{r.cancelType ? r.cancelType.key : <span className="dim">-</span>}</td>
+                  <td><span className="pill">{r.kind}</span></td>
+                  <td><Badge variant={r.isClubSocial ? 'success' : 'neutral'} dot={false}>{r.isClubSocial ? 'Y' : 'N'}</Badge></td>
+                  <td className="mono" style={{ fontSize: 12 }}>{r.hostId}</td>
+                  <td><a className="link">{r.hostNick}</a></td>
+                  <td className="mono" style={{ fontSize: 12 }}>{r.productId}</td>
+                  <td style={{ maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={r.productName}>{r.productName}</td>
+                  <td className="mono" style={{ fontSize: 12 }}>{fmtDate(r.startAt)} {['월', '화', '수', '목', '금', '토', '일'][(r.startAt.getDay() + 6) % 7]}</td>
+                  <td className="num mono">{r.amount === 0 ? <span className="text-muted">0원</span> : <span className="text-strong">₩{fmtMoney(r.amount)}</span>}</td>
+                  <td className="mono" style={{ fontSize: 12 }}>{r.ordererId}</td>
+                  <td className="link">{r.ordererNick}</td>
+                  <td className="muted mono">{r.ordererPhone}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="table-toolbar" style={{ borderBottom: 'none', borderTop: '1px solid var(--admin-card-border)' }}>
+          <div className="left"><span className="text-muted" style={{ fontSize: 12 }}>{filtered.length === 0 ? 0 : (page - 1) * pageSize + 1} – {Math.min(page * pageSize, filtered.length)} of {filtered.length}</span></div>
+          <div className="right">
+            <div className="pagination">
+              <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>‹ 이전 페이지</button>
+              {Array.from({ length: totalPages }).map((_, i) =>
+              <button key={i} className={page === i + 1 ? 'active' : ''} onClick={() => setPage(i + 1)}>{i + 1}</button>
+              )}
+              <button disabled={page === totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>다음 페이지 ›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>);
+
+}
+window.SocialApplyListScreen = SocialApplyListScreen;
+
+
+// Screen 5-1: 신청 상세 (소셜링)
+const SOCIAL_DETAIL_PRESETS = {
+  '체험단': {
+    orderId: 3024127,
+    orderNo: '20260512084328345433FWI63',
+    payType: '체험단',
+    applicant: {
+      name: '제이피', phone: '010-9481-7912', email: 'rlawjdvy1@naver.com',
+      purchaseCount: 134, purchaseAmount: 575842, joinedAt: '22-09-11', lastLogin: '22-09-11', memo: '-'
+    },
+    product: {
+      kind: '소셜링', category: '파티',
+      name: '🌸여2/남2 환영/(소규모 혼술바 소셜링 🍻)10-30명 내외!',
+      location: '불협화음', startAt: '26-05-12 (화) 20:30',
+      hostNick: '태태', price: 31000, discount: 24800
+    },
+    orderedAt: '26-05-12 (화) 08:40',
+    payment: {
+      paidAt: '26-05-12 (화) 08:43', amount: 31000, channel: '카드',
+      tid: '6a02692e89d981435670b2d1', refundAmount: 24800, settleAmount: 6200,
+      status: { key: '부분 환불', variant: 'warn' }
+    },
+    history: [
+    { id: 4771438, at: '26-05-12 (화) 08:43', detail: '부분 환불', type: '체험단', memo: '-' },
+    { id: 4771436, at: '26-05-12 (화) 08:43', detail: '결제 완료', type: '주문자 요청', memo: '-' }]
+
+  },
+  '얼리버드': {
+    orderId: 3024089,
+    orderNo: '20260511231429138585RUB70',
+    payType: '얼리버드',
+    applicant: {
+      name: '낭만집사', phone: '010-9239-0368', email: 'sww1880@naver.com',
+      purchaseCount: 0, purchaseAmount: 0, joinedAt: '26-04-16 (목)', lastLogin: '26-04-16 (목)', memo: '-'
+    },
+    product: {
+      kind: '소셜링', category: '파티',
+      name: 'Wine in 사당 🍷대규모파티가 싫은 낭만인들의 모임',
+      location: '사당역 공영주차장', startAt: '26-05-12 (화) 19:30',
+      hostNick: '리바이', price: 39000, discount: 3900
+    },
+    orderedAt: '26-05-11 (월) 23:11',
+    payment: {
+      paidAt: '26-05-11 (월) 23:14', amount: 39000, channel: '카드',
+      tid: '6a01e4325c997cbeec709c93', refundAmount: 3900, settleAmount: 35100,
+      status: { key: '부분 환불', variant: 'warn' }
+    },
+    history: [
+    { id: 4774306, at: '26-05-12 (화) 19:29', detail: '부분 환불', type: '주문자 요청', memo: '얼리버드 환불' },
+    { id: 4770239, at: '26-05-11 (월) 23:14', detail: '결제 완료', type: '주문자 요청', memo: '-' }]
+
+  }
+};
+
+function SocialApplyDetailScreen({ order, variant = '체험단', onBack }) {
+  const { fmtMoney } = window.MuntoData;
+  const o = order || SOCIAL_DETAIL_PRESETS[variant] || SOCIAL_DETAIL_PRESETS['체험단'];
+  const a = o.applicant,p = o.product,pay = o.payment;
+
+  return (
+    <>
+      <Breadcrumb items={['모임 신청 관리', '소셜링 신청 관리', '신청 상세']} />
+      <div className="flex between items-center" style={{ marginBottom: 20 }}>
+        <h1 className="page-title" style={{ margin: 0 }}>신청 상세</h1>
+        <button className="btn btn-outline btn-sm" onClick={onBack}>← 목록으로</button>
+      </div>
+
+      {/* 신청자 정보 (주문 메타 포함) */}
+      <div className="section-label">신청자 정보</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>주문일시</th>
+                <th>결제 유형</th>
+                <th data-comment-anchor="422b87f21a-th-1089-17">주문ID</th>
+                <th>주문번호</th>
+                <th>이름</th>
+                <th>연락처</th>
+                <th>가입일자</th>
+                <th>최종 로그인</th>
+                <th>메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="mono">{o.orderedAt}</td>
+                <td>{o.payType}</td>
+                <td className="mono"><a className="link">{o.orderId}</a></td>
+                <td className="mono" style={{ fontSize: 12 }}>{o.orderNo}</td>
+                <td><a className="link">{a.name}</a></td>
+                <td className="mono">{a.phone}</td>
+                <td className="mono">{a.joinedAt}</td>
+                <td className="mono">{a.lastLogin}</td>
+                <td><span className="dim">{a.memo}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 주문 상품 정보 */}
+      <div className="section-label">주문 상품 정보</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>분류</th><th>카테고리</th><th>상품명</th>
+                <th>장소</th><th>시작일</th><th>호스트</th>
+                <th className="num">판매가</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{p.kind}</td>
+                <td>{p.category}</td>
+                <td><a className="link" style={{ display: 'inline-block', maxWidth: 340, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', verticalAlign: 'middle' }} title={p.name}>{p.name}</a></td>
+                <td>{p.location}</td>
+                <td className="mono">{p.startAt}</td>
+                <td><a className="link">{p.hostNick}</a></td>
+                <td className="num mono">{fmtMoney(p.price)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 주문 / 결제 정보 */}
+      <div className="section-label">주문 / 결제 정보</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>결제일시</th><th>상품명</th><th>상품 유형</th>
+                <th className="num">상품금액</th>
+                <th className="num">결제액</th>
+                <th className="num">환불 금액</th>
+                <th className="num">상계액</th>
+                <th>결제방법</th><th>TID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="mono">{pay.paidAt}</td>
+                <td style={{ maxWidth: 280, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={p.name}>{p.name}</td>
+                <td>{o.payType}</td>
+                <td className="num mono">₩{fmtMoney(pay.amount)}</td>
+                <td className="num mono text-strong">₩{fmtMoney(pay.amount)}</td>
+                <td className="num mono" style={{ color: 'var(--badge-warn-fg)' }}>₩{fmtMoney(pay.refundAmount)}</td>
+                <td className="num mono text-strong">₩{fmtMoney(pay.settleAmount)}</td>
+                <td>{pay.channel}</td>
+                <td><a className="link mono" style={{ fontSize: 12 }}>{pay.tid}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24, padding: '14px 18px', borderTop: '1px solid var(--admin-card-border)', background: '#FAFAFB' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-muted)' }}>주문상태</span>
+            <Badge variant={pay.status.variant}>{pay.status.key}</Badge>
+          </div>
+          <div style={{ width: 1, height: 22, background: 'var(--admin-card-border)' }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-muted)' }}>주문 상태 변경</span>
+            <button className="btn btn-danger btn-xs">취소</button>
+            <button className="btn btn-danger btn-xs">PG 환불</button>
+          </div>
+        </div>
+      </div>
+
+      {/* 처리내역 */}
+      <div className="section-label">처리내역</div>
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>히스토리 ID</th>
+                <th>처리일시</th>
+                <th>내용</th>
+                <th>유형</th>
+                <th>메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              {o.history.map((h, i) =>
+              <tr key={i}>
+                  <td className="mono">{h.id}</td>
+                  <td className="mono">{h.at}</td>
+                  <td>{h.detail}</td>
+                  <td><span className="text-muted">{h.type}</span></td>
+                  <td>{h.memo === '-' ? <span className="dim">-</span> : h.memo}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 하단 요약 — 원 결제 금액 */}
+      <div className="card" style={{ marginTop: 16, padding: '18px 24px', display: 'flex', alignItems: 'center', gap: 24 }}>
+        <Badge variant="info">결제 완료</Badge>
+        <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.3px', fontVariantNumeric: 'tabular-nums' }}>
+          {fmtMoney(pay.settleAmount)}<span style={{ fontSize: 14, fontWeight: 600, marginLeft: 2, color: 'var(--fg-strong)' }}>원</span>
+        </div>
+      </div>
+    </>);
+
+}
+window.SocialApplyDetailScreen = SocialApplyDetailScreen;
+
+
+
+function MemoModal({ payment, memos, onClose, onAdd }) {
+  const { fmtDateTime } = window.MuntoData;
+  const [text, setText] = React.useState('');
+  const submit = () => {
+    const v = text.trim();
+    if (!v) return;
+    onAdd(v);
+    setText('');
+  };
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 560 }}>
+        <div className="modal-head">
+          <div className="title">메모 · 결제ID {payment.id}</div>
+          <button className="close" onClick={onClose}><Icon.Close /></button>
+        </div>
+        <div className="modal-body">
+          <div className="section-label" style={{ margin: '0 0 8px', fontSize: 13 }}>새 메모 작성</div>
+          <textarea className="textarea" placeholder="메모를 입력하세요 (등록 후 수정/삭제할 수 없습니다)"
+          style={{ width: '100%', minHeight: 140, boxSizing: 'border-box', fontSize: 13.5, lineHeight: 1.5 }}
+          value={text} onChange={(e) => setText(e.target.value)} />
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+            <button className="btn btn-primary btn-sm" onClick={submit} disabled={!text.trim()}>메모 등록</button>
+          </div>
+          <div className="section-label" style={{ margin: '20px 0 8px', fontSize: 13 }}>메모 내역 ({memos.length})</div>
+          {memos.length === 0 ?
+          <div className="text-muted" style={{ fontSize: 13, padding: '24px 0', textAlign: 'center' }}>등록된 메모가 없습니다.</div> :
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[...memos].reverse().map((m, i) =>
+            <div key={i} style={{ background: '#FAFAFB', border: '1px solid var(--admin-card-border)', borderRadius: 8, padding: '12px 14px' }}>
+                  <div className="text-muted" style={{ fontSize: 11.5, marginBottom: 4 }}>
+                    <span className="mono">{fmtDateTime(m.at)}</span> · {m.operator}
+                  </div>
+                  <div style={{ fontSize: 13, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{m.text}</div>
+                </div>
+            )}
+            </div>
+          }
+        </div>
+      </div>
+    </div>);
+
+}
+window.MemoModal = MemoModal;
+
+
+// Screen 6: 소셜링 목록 (모임 관리 > 소셜링 목록)
+function SocialMeetingListScreen({ onOpenDetail }) {
+  const { fmtDate, fmtMoney, pad } = window.MuntoData;
+  const [rows] = React.useState(() => window.MuntoData.generateSocialMeetings(12));
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [searchField, setSearchField] = React.useState('모임명');
+  const [search, setSearch] = React.useState('');
+  const [statusFilter, setStatusFilter] = React.useState('전체');
+
+  const filtered = React.useMemo(() => {
+    let xs = rows;
+    if (search.trim()) {
+      const q = search.trim();
+      xs = xs.filter((r) => {
+        if (searchField === '모임명') return r.name.includes(q);
+        if (searchField === '호스트명') return r.hostNick.includes(q);
+        if (searchField === '상품ID') return String(r.id).includes(q);
+        if (searchField === '연락처') return r.hostPhone.includes(q);
+        return true;
+      });
+    }
+    return xs;
+  }, [rows, search, searchField, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const pageRows = filtered.slice((page - 1) * pageSize, page * pageSize);
+  React.useEffect(() => {setPage(1);}, [pageSize, statusFilter, search]);
+
+  const dayName = (d) => ['월', '화', '수', '목', '금', '토', '일'][(d.getDay() + 6) % 7];
+
+  return (
+    <>
+      <Breadcrumb items={['모임 관리', '소셜링 목록']} />
+      <h1 className="page-title">소셜링 목록</h1>
+
+      {/* 검색 카드 */}
+      <div className="card">
+        <div className="card-body">
+          <div className="form-row">
+            <div className="field" style={{ minWidth: 140 }}>
+              <label>검색어</label>
+              <select className="select" value={searchField} onChange={(e) => setSearchField(e.target.value)}>
+                <option>모임명</option>
+                <option>호스트명</option>
+                <option>상품ID</option>
+                <option>연락처</option>
+              </select>
+            </div>
+            <div className="field" style={{ flex: 1, minWidth: 280 }}>
+              <label>&nbsp;</label>
+              <input className="input" placeholder="검색어를 입력하세요"
+              value={search} onChange={(e) => setSearch(e.target.value)} />
+            </div>
+            <div className="field">
+              <label>시작일</label>
+              <input className="input" defaultValue="26.05.01" style={{ width: 130 }} />
+            </div>
+            <div className="field">
+              <label>종료일</label>
+              <input className="input" defaultValue="26.05.12" style={{ width: 130 }} />
+            </div>
+            <div className="field">
+              <label>&nbsp;</label>
+              <select className="select" style={{ width: 110 }}>
+                <option>생성일</option>
+                <option>모임일</option>
+              </select>
+            </div>
+            <button className="btn btn-primary">검색</button>
+          </div>
+          <div className="form-row" style={{ marginTop: 14 }}>
+            <div className="field" style={{ flex: 1 }}>
+              <label>모집상태</label>
+              <div style={{ display: 'flex', gap: 18, alignItems: 'center', height: 36 }}>
+                {['전체', '모집 중', '모집 완료', '진행 완료', '취소'].map((s) =>
+                <label key={s} className="checkbox" style={{ cursor: 'pointer', userSelect: 'none' }}>
+                    <input type="radio" name="m-status" checked={statusFilter === s} onChange={() => setStatusFilter(s)} />
+                    <span style={{ fontSize: 13 }}>{s}</span>
+                  </label>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 테이블 */}
+      <div className="section-label" style={{ marginTop: 24 }}>소셜링 목록</div>
+      <div className="card">
+        <div className="table-toolbar">
+          <div className="left">
+            <select className="select" style={{ height: 30, padding: '4px 24px 4px 10px', fontSize: 12 }}
+            value={pageSize} onChange={(e) => setPageSize(parseInt(e.target.value))}>
+              <option value={10}>10개</option>
+              <option value={20}>20개</option>
+              <option value={50}>50개</option>
+            </select>
+            <span className="text-muted" style={{ fontSize: 12, marginLeft: 12 }}>전체 <b className="text-strong">{filtered.length}</b>건</span>
+          </div>
+          <div className="right" style={{ display: 'flex', gap: 8 }}>
+            <button className="btn btn-success btn-sm"><Icon.Download /> 엑셀 다운</button>
+          </div>
+        </div>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>생성일</th>
+                <th>상태</th>
+                <th>모임ID</th>
+                <th className="num">참가비</th>
+                <th>모집구분</th>
+                <th>카테고리</th>
+                <th>모임명</th>
+                <th>모임일</th>
+                <th>요일</th>
+                <th>시간</th>
+                <th>장소</th>
+                <th>클럽여부</th>
+                <th>호스트명</th>
+                <th>호스트ID</th>
+                <th>연락처</th>
+                <th className="num">정원</th>
+                <th className="num">참여인원</th>
+                <th>삭제여부</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageRows.map((r, i) =>
+              <tr key={i}>
+                  <td className="mono" style={{ fontSize: 12 }}>{fmtDate(r.createdAt)}</td>
+                  <td><Badge variant={r.status.variant}>{r.status.key}</Badge></td>
+                  <td className="mono" style={{ fontSize: 12 }}><a className="link" onClick={() => onOpenDetail && onOpenDetail(r)}>{r.id}</a></td>
+                  <td className="num mono">{r.fee === 0 ? <span className="dim">-</span> : <span className="text-strong">₩{fmtMoney(r.fee)}</span>}</td>
+                  <td><span className="pill">{r.kind}</span></td>
+                  <td>{r.category}</td>
+                  <td style={{ maxWidth: 280, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={r.name}>{r.name}</td>
+                  <td className="mono" style={{ fontSize: 12 }}>{fmtDate(r.meetAt)}</td>
+                  <td>{dayName(r.meetAt)}</td>
+                  <td className="mono" style={{ fontSize: 12 }}>{pad(r.hour, 2)}:{pad(r.min, 2)}</td>
+                  <td>{r.location}</td>
+                  <td><Badge variant={r.isClub ? 'success' : 'neutral'} dot={false}>{r.isClub ? 'Y' : 'N'}</Badge></td>
+                  <td><a className="link">{r.hostNick}</a></td>
+                  <td className="mono" style={{ fontSize: 12 }}>{r.hostId}</td>
+                  <td className="muted mono">{r.hostPhone}</td>
+                  <td className="num mono">{r.capacity}명</td>
+                  <td className="num mono">{r.joined}명</td>
+                  <td>{r.deleted ? <Badge variant="danger">삭제</Badge> : <span className="dim">-</span>}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="table-toolbar" style={{ borderBottom: 'none', borderTop: '1px solid var(--admin-card-border)' }}>
+          <div className="left"><span className="text-muted" style={{ fontSize: 12 }}>{filtered.length === 0 ? 0 : (page - 1) * pageSize + 1} – {Math.min(page * pageSize, filtered.length)} of {filtered.length}</span></div>
+          <div className="right">
+            <div className="pagination">
+              <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>‹ 이전 페이지</button>
+              {Array.from({ length: totalPages }).map((_, i) =>
+              <button key={i} className={page === i + 1 ? 'active' : ''} onClick={() => setPage(i + 1)}>{i + 1}</button>
+              )}
+              <button disabled={page === totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>다음 페이지 ›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>);
+
+}
+window.SocialMeetingListScreen = SocialMeetingListScreen;
+
+
+// Screen 6-1: 소셜링 상세 (모임 관리 > 소셜링 상세)
+function SocialMeetingDetailScreen({ onBack }) {
+  const info = {
+    title: '판을 뒤흔드는 전학생들의 등장',
+    status: '모집 중',
+    category: '파티',
+    subCategory: 'custom',
+    meetDate: '26.05.16 토',
+    time: '23:30',
+    kind: '오프라인',
+    place: '-',
+    memberId: '834486',
+    host: '컨택',
+    phone: '010-7724-0358',
+    amount: 29000,
+    encoreReq: 0,
+    encore: 'X',
+    isClub: '-',
+    visibility: '전체'
+  };
+
+  const baseRows = [
+  { no: 1, orderId: 3022595, payStatus: '결제 완료', memberStatus: '승인', applyAt: '26-05-11 23:26', approveAt: '26-05-11 23:40', memberId: 842182, name: '아이컨택', staff: '소셜링 스태프', phone: '010-2256-7122', tid: '6a01e72685067fec2d3648a6', payType: '결제' },
+  { no: 2, orderId: 3022606, payStatus: '결제 완료', memberStatus: '승인', applyAt: '26-05-11 23:29', approveAt: '26-05-11 23:40', memberId: 618231, name: '고리', staff: '소셜링 스태프', phone: '010-3436-0014', tid: '6a01e7c79a821001be70a152', payType: '결제' },
+  { no: 3, orderId: 3022612, payStatus: '취소 완료', memberStatus: '취소', applyAt: '26-05-11 23:31', approveAt: '26-05-11 23:40', memberId: 259705, name: '공감', staff: '소셜링 스태프', phone: '010-2840-4033', tid: '6a01e856631a9a6c4535db19', payType: '결제' },
+  { no: 4, orderId: 3022621, payStatus: '결제 완료', memberStatus: '승인', applyAt: '26-05-11 23:34', approveAt: '26-05-11 23:40', memberId: 1356174, name: '끌림', staff: '소셜링 스태프', phone: '010-8009-5569', tid: '6a01e9018bc4a6c4bd70a4f9', payType: '결제' },
+  { no: 5, orderId: 3022636, payStatus: '결제 완료', memberStatus: '승인', applyAt: '26-05-11 23:37', approveAt: '26-05-11 23:40', memberId: 1319512, name: '코코', staff: '소셜링 스태프', phone: '010-5144-3499', tid: '6a01e9949a821001be70a19d', payType: '결제' },
+  { no: 6, orderId: 3022648, payStatus: '부분 환불', memberStatus: '승인', applyAt: '26-05-11 23:42', approveAt: '26-05-11 23:50', memberId: 2014778, name: '루나', staff: '-', phone: '010-3318-2204', tid: '6a01ea1a17b32d4cbf8e0322', payType: '체험단' }];
+
+
+  const rows = baseRows.map((r) => {
+    if (r.payType === '체험단') {
+      const discount = Math.round(info.amount * 0.2);
+      const refund = info.amount - discount; // 80%
+      return { ...r, purchase: info.amount, discount, settle: 0, refund, retry: '-' };
+    }
+    return { ...r, purchase: info.amount, discount: 0, settle: info.amount, refund: 0, retry: '-' };
+  });
+
+  const trialCount = rows.filter((r) => r.payType === '체험단').length;
+
+  const HeaderBtn = ({ color, children, icon }) =>
+  <button className="btn btn-sm" style={{
+    background: color, color: '#fff', border: 'none',
+    fontWeight: 600, padding: '8px 14px', borderRadius: 6,
+    display: 'inline-flex', alignItems: 'center', gap: 6
+  }}>{children}{icon && <span style={{ opacity: 0.85 }}>{icon}</span>}</button>;
+
+
+  const InfoCell = ({ label, children, alignNum }) =>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 0 }}>
+      <div style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 500 }}>{label}</div>
+      <div style={{ fontSize: 13, color: 'var(--fg-strong)', fontWeight: 500, fontVariantNumeric: alignNum ? 'tabular-nums' : 'normal' }}>{children}</div>
+    </div>;
+
+
+  return (
+    <>
+      <Breadcrumb items={['모임 관리', '소셜링 목록', '소셜링 상세']} />
+      <div className="flex between items-center" style={{ marginBottom: 16 }}>
+        <h1 className="page-title" style={{ margin: 0 }}>소셜링 상세</h1>
+        <button className="btn btn-secondary btn-sm" onClick={onBack}>← 목록으로</button>
+      </div>
+
+      {/* 상단 헤더 액션 바 */}
+      <div className="card" style={{ padding: '18px 20px', marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 18, fontWeight: 700, color: '#D11A2A', letterSpacing: '-0.3px' }}>
+            <span>🎉</span>
+            <span>판을 뒤흔드는 전학생들의 등장</span>
+            <span>🎉</span>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <HeaderBtn color="#22B573">모임정보 📋</HeaderBtn>
+            <HeaderBtn color="#22B573">소셜링 숨기기</HeaderBtn>
+            <HeaderBtn color="#D11A2A">내용편집 ✎</HeaderBtn>
+            <HeaderBtn color="#D11A2A">신고하기</HeaderBtn>
+            <HeaderBtn color="#9AA0A6">참여자 정보 복사 📋</HeaderBtn>
+            <HeaderBtn color="#9AA0A6">소셜링 정보 복사 📋</HeaderBtn>
+            <HeaderBtn color="#9AA0A6">호스트 정보 복사 📋</HeaderBtn>
+            <HeaderBtn color="#D11A2A">문토 PICK 선정</HeaderBtn>
+            <HeaderBtn color="#D11A2A">취소 모임 선정</HeaderBtn>
+          </div>
+        </div>
+      </div>
+
+      {/* 모임 정보 카드 */}
+      <div className="card" style={{ padding: '24px 28px', marginBottom: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, minmax(0, 1fr))', gap: '20px 28px' }}>
+          <InfoCell label="상태"><Badge variant="info">{info.status}</Badge></InfoCell>
+          <InfoCell label="카테고리">{info.category}</InfoCell>
+          <InfoCell label="세부카테고리">{info.subCategory}</InfoCell>
+          <InfoCell label="모임일" alignNum>{info.meetDate}</InfoCell>
+          <InfoCell label="시간" alignNum>{info.time}</InfoCell>
+          <InfoCell label="구분">{info.kind}</InfoCell>
+          <InfoCell label="장소">{info.place}</InfoCell>
+          <InfoCell label="멤버 ID" alignNum>{info.memberId}</InfoCell>
+          <InfoCell label="주최자"><a className="link">{info.host}</a></InfoCell>
+          <InfoCell label="전화번호" alignNum>{info.phone}</InfoCell>
+          <InfoCell label="금액" alignNum>{info.amount.toLocaleString()}</InfoCell>
+          <InfoCell label="채팅방링크"><a className="link">채팅방 링크</a></InfoCell>
+          <InfoCell label="채팅방링크복사"><button className="btn btn-sm" style={{ background: '#3B82F6', color: '#fff', border: 'none', borderRadius: 6, padding: '4px 12px', fontSize: 12, fontWeight: 600 }}>복사</button></InfoCell>
+          <InfoCell label="앵콜요청" alignNum>{info.encoreReq}</InfoCell>
+          <InfoCell label="앵콜여부">{info.encore}</InfoCell>
+          <InfoCell label="클럽소셜링 여부">{info.isClub}</InfoCell>
+          <InfoCell label="공개여부">{info.visibility}</InfoCell>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 24, paddingTop: 20, borderTop: '1px solid var(--admin-card-border)' }}>
+          <span style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 500, minWidth: 40 }}>메모</span>
+          <input className="input" style={{ flex: 1 }} placeholder="메모를 입력하세요" />
+          <button className="btn" style={{ background: '#D11A2A', color: '#fff', border: 'none', fontWeight: 600 }}>저장하기</button>
+        </div>
+      </div>
+
+      {/* 참여정보 */}
+      <div className="section-label">참여정보</div>
+      <div className="card" style={{ marginBottom: 24 }}>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'center' }}>모집인원(호스트제외)</th>
+                <th style={{ textAlign: 'center' }}>스태프 인원 수</th>
+                <th style={{ textAlign: 'center' }}>전체신청</th>
+                <th style={{ textAlign: 'center' }}>모임전 취소</th>
+                <th style={{ textAlign: 'center' }}>확정인원</th>
+                <th style={{ textAlign: 'center' }}>체험단 참여자 수</th>
+                <th style={{ textAlign: 'center' }}>남성</th>
+                <th style={{ textAlign: 'center' }}>여성</th>
+                <th style={{ textAlign: 'center' }}>모임 만족도</th>
+                <th style={{ textAlign: 'center' }}>응답률</th>
+                <th style={{ textAlign: 'center' }}>좋아요</th>
+                <th style={{ textAlign: 'center' }}>댓글</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={{ textAlign: 'center' }}>최소 2명 ~ 최대 24명</td>
+                <td style={{ textAlign: 'center' }}>5명</td>
+                <td style={{ textAlign: 'center' }}>{rows.length}명</td>
+                <td style={{ textAlign: 'center' }}>0명</td>
+                <td style={{ textAlign: 'center' }}>{rows.length}명</td>
+                <td style={{ textAlign: 'center' }}><span className="text-strong">{trialCount}명</span></td>
+                <td style={{ textAlign: 'center' }}>2명</td>
+                <td style={{ textAlign: 'center' }}>{rows.length - 2}명</td>
+                <td style={{ textAlign: 'center' }}><span className="dim">-</span></td>
+                <td style={{ textAlign: 'center' }}>0%</td>
+                <td style={{ textAlign: 'center' }}>5</td>
+                <td style={{ textAlign: 'center' }}>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 신청자 목록 */}
+      <div className="section-label">참여 목록</div>
+      <div className="card" style={{ marginBottom: 24 }}>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>신청일</th>
+                <th>주문ID</th>
+                <th>결제 상태</th>
+                <th>멤버 상태</th>
+                <th>승인일시</th>
+                <th>멤버ID</th>
+                <th>닉네임</th>
+                <th>멤버 구분</th>
+                <th>연락처</th>
+                <th>TID</th>
+                <th className="num">구매금액</th>
+                <th className="num">할인 참가비</th>
+                <th className="num">정산대상금액</th>
+                <th className="num">환불 금액</th>
+                <th>환불 재시도</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) =>
+              <tr key={r.no}>
+                  <td className="mono">{r.no}</td>
+                  <td className="mono" style={{ fontSize: 12 }}>{r.applyAt}</td>
+                  <td><a className="link">{r.orderId}</a></td>
+                  <td>{r.payStatus}</td>
+                  <td>{r.memberStatus}</td>
+                  <td className="mono" style={{ fontSize: 12 }}>{r.approveAt}</td>
+                  <td className="mono" style={{ fontSize: 12 }}>{r.memberId}</td>
+                  <td><a className="link">{r.name}</a></td>
+                  <td>{r.payType === '체험단' ? '체험단' : r.staff !== '-' ? '스태프' : '일반'}</td>
+                  <td className="muted mono">{r.phone}</td>
+                  <td><a className="link mono" style={{ fontSize: 12 }}>{r.tid}</a></td>
+                  <td className="num mono">{r.purchase.toLocaleString()}</td>
+                  <td className="num mono">{r.discount === 0 ? <span className="dim">0</span> : <span className="text-strong">{r.discount.toLocaleString()}</span>}</td>
+                  <td className="num mono">{r.settle === 0 ? <span className="dim">0</span> : r.settle.toLocaleString()}</td>
+                  <td className="num mono">{r.refund === 0 ? <span className="dim">0</span> : <span className="text-strong" style={{ color: 'var(--secondary-50)' }}>{r.refund.toLocaleString()}</span>}</td>
+                  <td className="dim">{r.retry}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 댓글 */}
+      <div className="card">
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'center' }}>댓글 ID</th>
+                <th style={{ textAlign: 'center' }}>댓글 상태</th>
+                <th style={{ textAlign: 'center' }}>댓글 작성자 ID</th>
+                <th style={{ textAlign: 'center' }}>내용</th>
+                <th style={{ textAlign: 'center' }}>작성일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan={5} style={{ textAlign: 'center', padding: '32px 0', color: 'var(--neutral-30)', fontSize: 13 }}>등록된 댓글이 없습니다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>);
+
+}
+window.SocialMeetingDetailScreen = SocialMeetingDetailScreen;
+
+
+const SCREENS = [
+{ key: 'social-apply-list', label: '소셜링 신청 관리', nav: 'social-apply-list' },
+{ key: 'social-apply-detail', label: '신청 상세', nav: 'social-apply-list' },
+{ key: 'social-meeting-list', label: '소셜링 목록', nav: 'social-meeting-list' },
+{ key: 'social-meeting-detail', label: '소셜링 상세', nav: 'social-meeting-list' },
+{ key: 'payment-list', label: '1. 초대권 결제 관리', nav: 'payment-list' },
+{ key: 'payment-detail', label: '1-1. 결제 상세', nav: 'payment-list' },
+{ key: 'recruit-list', label: '2. 체험단 모집 관리', nav: 'recruit-list' },
+{ key: 'recruit-detail', label: '2-1. 모집 상세', nav: 'recruit-list' }];
+
+
+function App() {
+  const STORAGE_KEY = 'munto-admin-screen';
+  const [screen, setScreen] = React.useState(() => localStorage.getItem(STORAGE_KEY) || 'payment-list');
+  const [detailPayment, setDetailPayment] = React.useState(null);
+  const [detailRecruit, setDetailRecruit] = React.useState(null);
+  const [refundTarget, setRefundTarget] = React.useState(null);
+  const [memoTarget, setMemoTarget] = React.useState(null);
+  const [memos, setMemos] = React.useState({});
+  const [toast, setToast] = React.useState(null);
+  const addMemo = (pid, text) => {
+    setMemos((m) => ({
+      ...m,
+      [pid]: [...(m[pid] || []), { text, at: new Date(), operator: 'admin@munto.kr' }]
+    }));
+  };
+
+  React.useEffect(() => {localStorage.setItem(STORAGE_KEY, screen);}, [screen]);
+
+  const active = SCREENS.find((s) => s.key === screen) || SCREENS[0];
+  const showToast = (msg) => setToast({ id: Date.now(), msg });
+  const handleDownload = () => showToast('엑셀 다운로드가 시작되었습니다. (payments_20260420.xlsx)');
+  const handleRefundConfirm = (qty, amount) => {
+    setRefundTarget(null);
+    showToast(`환불 처리 완료 · ${qty}매 · ₩${amount.toLocaleString()}`);
+  };
+
+  return (
+    <>
+      <div className="screen-tabs">
+        {SCREENS.map((s) =>
+        <button key={s.key} className={screen === s.key ? 'active' : ''}
+        onClick={() => {
+          setScreen(s.key);
+          if (s.key === 'payment-detail' && !detailPayment) {
+            const r = window.MuntoData.generatePayments(1)[0];
+            r.within5 = true;r.used = false;r.refundable = true;
+            setDetailPayment(r);
+          }
+          if (s.key === 'recruit-detail' && !detailRecruit) {
+            const r = window.MuntoData.generateRecruitments(1)[0];
+            setDetailRecruit(r);
+          }
+        }}>{s.label}</button>
+        )}
+      </div>
+      <div className="admin-app">
+        <Sidebar active={active.nav} />
+        <main>
+          <TopBar />
+          <div className="page">
+            {screen === 'social-apply-list' &&
+            <SocialApplyListScreen onOpenDetail={() => setScreen('social-apply-detail')} />
+            }
+            {screen === 'social-apply-detail' &&
+            <SocialApplyDetailScreen variant="체험단" onBack={() => setScreen('social-apply-list')} />
+            }
+            {screen === 'social-meeting-list' &&
+            <SocialMeetingListScreen onOpenDetail={() => setScreen('social-meeting-detail')} />
+            }
+            {screen === 'social-meeting-detail' &&
+            <SocialMeetingDetailScreen onBack={() => setScreen('social-meeting-list')} />
+            }
+            {screen === 'payment-list' &&
+            <PaymentListScreen
+              onOpenDetail={(r) => {setDetailPayment(r);setScreen('payment-detail');}}
+              onOpenRefund={(r) => setRefundTarget(r)}
+              onOpenMemo={(r) => setMemoTarget(r)}
+              memos={memos}
+              onDownload={handleDownload} />
+
+            }
+            {screen === 'payment-detail' &&
+            <PaymentDetailScreen payment={detailPayment} onBack={() => setScreen('payment-list')} onOpenRefund={(r) => setRefundTarget(r)} onOpenMemo={(r) => setMemoTarget(r)} memos={memos} />
+            }
+            {screen === 'recruit-list' &&
+            <RecruitListScreen onOpenDetail={(r) => {setDetailRecruit(r);setScreen('recruit-detail');}} />
+            }
+            {screen === 'recruit-detail' &&
+            <RecruitDetailScreen recruitment={detailRecruit} onBack={() => setScreen('recruit-list')} />
+            }
+          </div>
+        </main>
+      </div>
+      {refundTarget && <RefundModal payment={refundTarget} onClose={() => setRefundTarget(null)} onConfirm={handleRefundConfirm} />}
+      {memoTarget && <MemoModal payment={memoTarget} memos={memos[memoTarget.id] || []} onClose={() => setMemoTarget(null)} onAdd={(text) => {addMemo(memoTarget.id, text);}} />}
+      <div className="toast-region">
+        {toast && <Toast key={toast.id} message={toast.msg} onDone={() => setToast(null)} />}
+      </div>
+    </>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
