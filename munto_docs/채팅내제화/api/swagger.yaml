@@ -118,11 +118,9 @@ paths:
       description: |
         채팅방을 생성합니다. (SRS 7.2.1 참조)
         
-        **호출 주체:** 문토 백엔드 또는 데이팅 백엔드 (서버 간 통신)
-        
-        **채팅방 유형별 생성:**
+        **채팅방 유형별 호출 주체:** 모든 유형이 백엔드에서 채팅 서버로 호출합니다 (서버 간 통신)
         - **그룹 (GROUP):** 소셜링/클럽/챌린지 생성 시 문토 백엔드에서 호출
-        - **DM:** 사용자가 DM 전송 시도 시 문토 백엔드에서 호출
+        - **DM:** 사용자가 상대방에게 DM 전송 시도 시 문토 백엔드에서 호출
         - **데이팅 DM (DATING_DM):** 친구 신청 수락 시 데이팅 백엔드에서 호출
         
         **자동 처리:**
@@ -596,6 +594,60 @@ paths:
   # ================================
   # 푸시 알림 설정 API
   # ================================
+  /notifications:
+    get:
+      tags: [Notifications]
+      summary: 채팅 알림 설정 조회 (전역)
+      description: |
+        사용자의 채팅 알림 설정(전역, 모든 채팅방 공통)을 조회합니다. (SRS 7.5.2 참조)
+        
+        **설정 항목:**
+        - 채팅 알림 켜기/끄기
+        
+        전체 알림(앱 마스터)·기기 알림 권한은 채팅 서버가 관리하지 않습니다(기기/앱 레벨, SRS 7.5.2).
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 전역 알림 설정 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalNotificationSettingResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    patch:
+      tags: [Notifications]
+      summary: 채팅 알림 설정 변경 (전역)
+      description: |
+        사용자의 채팅 알림 설정(전역)을 변경합니다. (SRS 7.5.2 참조)
+        
+        **설정 변경 시 즉시 적용됩니다.**
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGlobalNotificationRequest'
+      responses:
+        '200':
+          description: 전역 알림 설정 변경 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalNotificationSettingResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /rooms/{roomId}/notifications:
     get:
       tags: [Notifications]
@@ -941,6 +993,169 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /admin/rooms/{roomId}/messages/{messageId}:
+    patch:
+      tags: [Admin]
+      summary: 메시지 블라인드 처리 (관리자)
+      description: |
+        메시지를 블라인드 처리합니다. (SRS 7.8.6 참조)
+        
+        **블라인드 처리:**
+        - 원본 내용은 `original_content`에 보존
+        - 사용자에게는 블라인드 처리된 메시지로 표시
+        - 블라인드 해제도 동일 엔드포인트 사용 (`isBlinded: false`)
+        
+        **권한:** 백오피스 관리자만 가능
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RoomId'
+        - $ref: '#/components/parameters/MessageId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUpdateMessageRequest'
+      responses:
+        '200':
+          description: 메시지 처리 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      tags: [Admin]
+      summary: 메시지 삭제 (관리자)
+      description: |
+        메시지를 삭제합니다. (SRS 7.8.6 참조)
+        
+        **삭제 효과:**
+        - 삭제된 메시지는 모든 사용자에게서 제거
+        - 삭제 이력 기록 (관리자 ID, 삭제 시간, 삭제 사유)
+        
+        **권한:** 백오피스 관리자만 가능
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RoomId'
+        - $ref: '#/components/parameters/MessageId'
+        - name: reason
+          in: query
+          required: true
+          schema:
+            type: string
+            maxLength: 500
+          description: 삭제 사유
+      responses:
+        '200':
+          description: 메시지 삭제 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /admin/messages:
+    get:
+      tags: [Admin]
+      summary: 메시지 검색 (관리자)
+      description: |
+        조건에 맞는 메시지를 검색합니다. (SRS 7.8.7 참조)
+        
+        **검색 조건:**
+        - `senderId`: 발신자 사용자 ID
+        - `roomId`: 채팅방 ID
+        - `keyword`: 메시지 내용 키워드 (한글 부분 일치 지원, pg_bigm)
+        - `sentAfter` / `sentBefore`: 기간 (최대 90일 범위)
+        - `hasExternalContact`: 전화번호/SNS ID 등 외부 연락처 패턴 포함 여부
+        
+        **참고:**
+        - 검색 수행 시 감사 로그 자동 기록
+        - 결과는 JSON 형식으로 다운로드 가능 (`Accept: application/json`)
+        
+        **권한:** 백오피스 관리자만 가능
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: senderId
+          in: query
+          schema:
+            type: integer
+          description: 발신자 사용자 ID
+        - name: roomId
+          in: query
+          schema:
+            type: integer
+          description: 채팅방 ID
+        - name: keyword
+          in: query
+          schema:
+            type: string
+          description: 메시지 내용 키워드 (한글 부분 일치)
+        - name: sentAfter
+          in: query
+          schema:
+            type: integer
+            format: int64
+          description: 검색 시작 시간 (Unix time ms)
+        - name: sentBefore
+          in: query
+          schema:
+            type: integer
+            format: int64
+          description: 검색 종료 시간 (Unix time ms, sentAfter로부터 최대 90일)
+        - name: hasExternalContact
+          in: query
+          schema:
+            type: boolean
+          description: 전화번호/SNS ID 등 외부 연락처 패턴 포함 여부 필터
+        - $ref: '#/components/parameters/CursorAfter'
+        - $ref: '#/components/parameters/CursorBefore'
+        - name: count
+          in: query
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 100
+          description: 한 페이지당 항목 수 (기본 50건)
+      responses:
+        '200':
+          description: 메시지 검색 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminMessageSearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
 
@@ -1625,6 +1840,21 @@ components:
     # ================================
     # 알림 설정 스키마
     # ================================
+    GlobalNotificationSettingResponse:
+      type: object
+      required: [chatNotificationsEnabled]
+      properties:
+        chatNotificationsEnabled:
+          type: boolean
+          description: 채팅 알림 켜기/끄기 (전역, 모든 채팅방 공통). 전체 알림(앱 마스터)은 채팅 서버가 관리하지 않음
+
+    UpdateGlobalNotificationRequest:
+      type: object
+      properties:
+        chatNotificationsEnabled:
+          type: boolean
+          description: 채팅 알림 켜기/끄기 (전역)
+
     RoomNotificationSettingResponse:
       type: object
       required: [roomId, enabled]
@@ -2117,3 +2347,64 @@ components:
               type: string
               nullable: true
               description: 블라인드 사유
+
+    AdminUpdateMessageRequest:
+      type: object
+      required: [isBlinded]
+      properties:
+        isBlinded:
+          type: boolean
+          description: 블라인드 처리 여부(true -> 블라인드, false -> 블라인드 해제)
+        blindReason:
+          type: string
+          maxLength: 255
+          description: 블라인드 사유 (isBlinded가 true일 때 권장)
+
+    AdminMessageSearchResponse:
+      type: object
+      required: [messages, meta]
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminMessageSearchItem'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    AdminMessageSearchItem:
+      type: object
+      required: [id, roomId, type, content, sender, sentAt, isBlinded]
+      properties:
+        id:
+          type: integer
+          description: 메시지 ID
+        roomId:
+          type: integer
+          description: 채팅방 ID
+        type:
+          type: string
+          enum: [TEXT, IMAGE, SYSTEM, CHALLENGE_CHECKIN, FEED, POLL]
+        content:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+            - type: object
+          description: 메시지 내용
+        sender:
+          $ref: '#/components/schemas/UserSummary'
+        sentAt:
+          type: integer
+          format: int64
+          description: 전송 시간 (Unix time ms)
+        isBlinded:
+          type: boolean
+        originalContent:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          nullable: true
+          description: 블라인드 처리 전 원본 내용 (블라인드된 경우)

@@ -108,7 +108,13 @@ CREATE TABLE chat_rooms (
     -- 공통 필드
     last_message_at BIGINT,                                 -- 최근 메시지 시간 (Unix time ms)
     created_at BIGINT NOT NULL,                             -- 생성 시간 (Unix time ms)
-    updated_at BIGINT NOT NULL                              -- 수정 시간 (Unix time ms)
+    updated_at BIGINT NOT NULL,                             -- 수정 시간 (Unix time ms)
+
+    -- type별 필수 컬럼 무결성
+    CONSTRAINT chk_group_room_meta
+        CHECK (type != 'GROUP' OR (socialing_id IS NOT NULL OR club_id IS NOT NULL OR challenge_id IS NOT NULL)),
+    CONSTRAINT chk_dating_room_meta
+        CHECK (type != 'DATING_DM' OR match_id IS NOT NULL)
 );
 
 -- 인덱스
@@ -138,6 +144,8 @@ CREATE INDEX idx_chat_rooms_last_message_at ON chat_rooms(last_message_at);
 
 채팅방 참여자 정보를 저장합니다.
 
+읽음 처리는 `last_read_message_id` 단일 컬럼으로 관리합니다. 채팅은 순서대로 읽히므로 마지막으로 읽은 메시지 이전은 모두 읽은 것으로 간주합니다.
+
 ```sql
 CREATE TABLE chat_room_participants (
     id SERIAL PRIMARY KEY,
@@ -146,6 +154,7 @@ CREATE TABLE chat_room_participants (
     role participant_role_type NOT NULL DEFAULT 'MEMBER',   -- 역할
     joined_at BIGINT NOT NULL,                              -- 참여 시간 (Unix time ms)
     left_at BIGINT,                                         -- 나간 시간 (ms, NULL이면 참여 중)
+    last_read_message_id BIGINT,                            -- 마지막으로 읽은 메시지 ID (NULL이면 아무것도 읽지 않음)
     
     CONSTRAINT fk_participants_room_id 
         FOREIGN KEY (room_id) REFERENCES chat_rooms(id) ON DELETE CASCADE,
@@ -165,6 +174,27 @@ CREATE INDEX idx_participants_left_at ON chat_room_participants(left_at);
 |------|------|
 | `role` | HOST (호스트), MANAGER (매니저), MEMBER (멤버), ADMINISTRATOR (문토봇) |
 | `left_at` | NULL이면 현재 참여 중, 값이 있으면 나간 상태 |
+| `last_read_message_id` | 읽음 처리 기준. 이 ID 이하의 메시지는 모두 읽음으로 처리 |
+
+**읽음 처리 쿼리 패턴:**
+
+```sql
+-- 안읽은 메시지 수 (채팅방 목록 뱃지)
+SELECT COUNT(*) FROM messages
+WHERE room_id = :roomId
+  AND id > COALESCE(:last_read_message_id, 0);
+
+-- 메시지별 읽은 사람 수 (메시지 옆 읽음 표시)
+SELECT COUNT(*) FROM chat_room_participants
+WHERE room_id = :roomId
+  AND last_read_message_id >= :messageId
+  AND left_at IS NULL;
+
+-- 읽음 처리 (채팅방 진입 시)
+UPDATE chat_room_participants
+SET last_read_message_id = :latestMessageId
+WHERE room_id = :roomId AND user_id = :userId;
+```
 
 ---
 
@@ -172,11 +202,11 @@ CREATE INDEX idx_participants_left_at ON chat_room_participants(left_at);
 
 채팅 메시지를 저장합니다.
 
-**순서 보장 기준:** `id`(SERIAL)가 메시지 순서의 단일 진실 공급원(Single Source of Truth)입니다. `sent_at`은 UI 표시용이며 정렬 기준이 아닙니다. (SRS 7.3.5 참조)
+**순서 보장 기준:** `id`(BIGSERIAL)가 메시지 순서의 단일 진실 공급원(Single Source of Truth)입니다. `sent_at`은 UI 표시용이며 정렬 기준이 아닙니다. (SRS 7.3.5 참조)
 
 ```sql
 CREATE TABLE messages (
-    id SERIAL PRIMARY KEY,                                  -- 메시지 순서 기준 (SSOT)
+    id BIGSERIAL PRIMARY KEY,                               -- 메시지 순서 기준 (SSOT)
     room_id INT NOT NULL,                                   -- 채팅방 ID
     sender_id INT NOT NULL,                                 -- 전송자 ID (외부 참조)
     type message_type NOT NULL,                             -- 메시지 타입
@@ -199,7 +229,7 @@ CREATE TABLE messages (
 CREATE INDEX idx_messages_room_id ON messages(room_id);
 CREATE INDEX idx_messages_sender_id ON messages(sender_id);
 CREATE INDEX idx_messages_sent_at ON messages(sent_at);
-CREATE INDEX idx_messages_room_sent_at ON messages(room_id, sent_at);
+CREATE INDEX idx_messages_room_id_cursor ON messages(room_id, id);  -- 커서 기반 페이지네이션 (id가 SSOT)
 CREATE INDEX idx_messages_type ON messages(type);
 CREATE INDEX idx_messages_is_announcement ON messages(is_announcement);
 CREATE INDEX idx_messages_is_blinded ON messages(is_blinded);
@@ -285,65 +315,7 @@ USING GIN ((content->>'text') gin_bigm_ops);
 
 ---
 
-### 4. message_reads (메시지 읽음)
-
-메시지 읽음 처리 정보를 저장합니다.
-
-```sql
-CREATE TABLE message_reads (
-    id SERIAL PRIMARY KEY,
-    message_id INT NOT NULL,                                -- 메시지 ID
-    user_id INT NOT NULL,                                   -- 읽은 사용자 ID
-    read_at BIGINT NOT NULL,                                -- 읽음 시간 (Unix time ms)
-    
-    CONSTRAINT fk_reads_message_id 
-        FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE,
-    CONSTRAINT unique_message_user UNIQUE (message_id, user_id)
-);
-
--- 인덱스
-CREATE INDEX idx_reads_message_id ON message_reads(message_id);
-CREATE INDEX idx_reads_user_id ON message_reads(user_id);
-CREATE INDEX idx_reads_message_user ON message_reads(message_id, user_id);
-```
-
-**설명:**
-- 채팅방 진입 시 해당 채팅방의 모든 읽지 않은 메시지를 일괄 읽음 처리
-- `UNIQUE` 제약으로 중복 읽음 처리 방지
-
----
-
-### 5. unread_message_counts (읽지 않은 메시지 수)
-
-사용자별 채팅방별 읽지 않은 메시지 수를 관리합니다. (카운터 방식)
-
-```sql
-CREATE TABLE unread_message_counts (
-    id SERIAL PRIMARY KEY,
-    room_id INT NOT NULL,                                   -- 채팅방 ID
-    user_id INT NOT NULL,                                   -- 사용자 ID
-    unread_count INT NOT NULL DEFAULT 0,                    -- 읽지 않은 수
-    updated_at BIGINT NOT NULL,                             -- 업데이트 시간 (Unix time ms)
-    
-    CONSTRAINT fk_unread_room_id 
-        FOREIGN KEY (room_id) REFERENCES chat_rooms(id) ON DELETE CASCADE,
-    CONSTRAINT unique_unread_room_user UNIQUE (room_id, user_id)
-);
-
--- 인덱스
-CREATE INDEX idx_unread_room_id ON unread_message_counts(room_id);
-CREATE INDEX idx_unread_user_id ON unread_message_counts(user_id);
-CREATE INDEX idx_unread_room_user ON unread_message_counts(room_id, user_id);
-```
-
-**설명:**
-- 새 메시지 발생 시: `unread_count + 1`
-- 읽음 처리 시: `unread_count = 0`
-- COUNT 쿼리 대신 카운터 값 직접 관리로 효율성 향상
-
----
-
-### 6. reports (신고)
+### 4. reports (신고)
 
 메시지 및 사용자 신고 정보를 저장합니다.
 
@@ -383,7 +355,7 @@ CREATE INDEX idx_reports_created_at ON reports(created_at);
 
 ---
 
-### 7. blocks (차단)
+### 5. blocks (차단)
 
 사용자 간 차단 정보를 저장합니다.
 
@@ -408,16 +380,15 @@ CREATE INDEX idx_blocks_blocked_id ON blocks(blocked_id);
 
 ---
 
-### 8. notification_settings (푸시 알림 설정)
+### 6. notification_settings (채팅 알림 설정)
 
-사용자별 전역 푸시 알림 설정을 저장합니다.
+사용자별 채팅 알림 설정(전역, 모든 채팅방 공통)을 저장합니다. **채팅 서버 소유**(SRS 7.5.2 — 발송 주체가 채팅 서버이므로). 전체 알림(앱 마스터)·기기 알림 권한은 기기/앱 레벨이라 여기 저장하지 않습니다. 기존 문토/데이팅 백엔드의 채팅 알림 설정값은 채팅 서버 DB로 마이그레이션합니다.
 
 ```sql
 CREATE TABLE notification_settings (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,                            -- 사용자 ID
-    all_notifications_enabled BOOLEAN NOT NULL DEFAULT TRUE,  -- 전체 알림
-    chat_notifications_enabled BOOLEAN NOT NULL DEFAULT TRUE, -- 채팅 알림
+    chat_notifications_enabled BOOLEAN NOT NULL DEFAULT TRUE, -- 채팅 알림 (전역). 채팅 서버 소유 (SRS 7.5.2)
     updated_at BIGINT NOT NULL                              -- 업데이트 시간 (Unix time ms)
 );
 
@@ -427,7 +398,7 @@ CREATE INDEX idx_notification_user_id ON notification_settings(user_id);
 
 ---
 
-### 9. room_notification_settings (채팅방별 알림 설정)
+### 7. room_notification_settings (채팅방별 알림 설정)
 
 채팅방별 개별 알림 설정을 저장합니다.
 
@@ -451,7 +422,7 @@ CREATE INDEX idx_room_notif_user_id ON room_notification_settings(user_id);
 
 ---
 
-### 10. profanity (금칙어)
+### 8. profanity (금칙어)
 
 관리자용 금칙어 목록을 저장합니다.
 
@@ -484,38 +455,28 @@ CREATE INDEX idx_profanity_match_type ON profanity(match_type);
 │  title, socialing_id, club_id, challenge_id                                 │
 │  match_id, room_status, activated_at, chat_expires_at                       │
 │  last_message_at, created_at, updated_at                                    │
+│  CHECK: GROUP → socialing/club/challenge_id 중 하나 필수                     │
+│  CHECK: DATING_DM → match_id 필수                                           │
 └─────────────────────────────────────────────────────────────────────────────┘
-         │                    │                    │
-         │ 1:N                │ 1:N                │ 1:N
-         ▼                    ▼                    ▼
-┌─────────────────┐  ┌─────────────────┐  ┌──────────────────────┐
-│ chat_room_      │  │    messages     │  │ unread_message_      │
-│ participants    │  │    (메시지)      │  │ counts               │
-├─────────────────┤  ├─────────────────┤  ├──────────────────────┤
-│ id (PK)         │  │ id (PK)         │  │ id (PK)              │
-│ room_id (FK)    │  │ room_id (FK)    │  │ room_id (FK)         │
-│ user_id         │  │ sender_id       │  │ user_id              │
-│ role            │  │ type            │  │ unread_count         │
-│ joined_at       │  │ content (JSONB) │  │ updated_at           │
-│ left_at         │  │ is_announcement │  └──────────────────────┘
-└─────────────────┘  │ is_blinded      │
-                     │ original_content│
-                     │ blinded_at      │
-                     │ blind_reason    │
-                     │ sent_at         │
-                     └─────────────────┘
-                              │
-                              │ 1:N
-                              ▼
-                     ┌─────────────────┐
-                     │ message_reads   │
-                     │ (읽음 처리)      │
-                     ├─────────────────┤
-                     │ id (PK)         │
-                     │ message_id (FK) │
-                     │ user_id         │
-                     │ read_at         │
-                     └─────────────────┘
+         │                              │
+         │ 1:N                          │ 1:N
+         ▼                              ▼
+┌──────────────────────┐      ┌─────────────────┐
+│ chat_room_           │      │    messages     │
+│ participants         │      │    (메시지)      │
+├──────────────────────┤      ├─────────────────┤
+│ id (PK)              │      │ id (PK, BIGINT) │
+│ room_id (FK)         │      │ room_id (FK)    │
+│ user_id              │      │ sender_id       │
+│ role                 │      │ type            │
+│ joined_at            │      │ content (JSONB) │
+│ left_at              │      │ is_announcement │
+│ last_read_message_id │◄─ ─ ─│ is_blinded      │
+└──────────────────────┘      │ original_content│
+  읽음 처리: last_read_        │ blinded_at      │
+  message_id 이하는            │ blind_reason    │
+  모두 읽음으로 처리            │ sent_at         │
+                              └─────────────────┘
 
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -526,11 +487,11 @@ CREATE INDEX idx_profanity_match_type ON profanity(match_type);
 ├─────────────────┼─────────────────┼─────────────────┼───────────────────────┤
 │ id (PK)         │ id (PK)         │ id (PK)         │ id (PK)               │
 │ reporter_id     │ blocker_id      │ user_id (UQ)    │ room_id (FK)          │
-│ target_type     │ blocked_id      │ all_notif_      │ user_id               │
+│ target_type     │ blocked_id      │ chat_notif_     │ user_id               │
 │ target_id       │ blocked_at      │ enabled         │ enabled               │
-│ report_type     │                 │ chat_notif_     │ updated_at            │
-│ reason          │                 │ enabled         │                       │
-│ evidence_urls   │                 │ updated_at      │                       │
+│ report_type     │                 │ updated_at      │ updated_at            │
+│ reason          │                 │                 │                       │
+│ evidence_urls   │                 │                 │                       │
 │ report_number   │                 │                 │                       │
 │ status          │                 │                 │                       │
 │ is_auto         │                 │                 │                       │
@@ -558,10 +519,8 @@ CREATE INDEX idx_profanity_match_type ON profanity(match_type);
 | 테이블 | 주요 인덱스 | 용도 |
 |--------|------------|------|
 | `chat_rooms` | `type`, `socialing_id`, `match_id`, `last_message_at` | 채팅방 조회/목록 정렬 |
-| `chat_room_participants` | `room_id`, `user_id`, `(room_id, user_id)` | 참여자 조회 |
-| `messages` | `(room_id, sent_at)`, `content->'images'` (GIN) | 메시지 페이지네이션, 이미지 모아보기 |
-| `message_reads` | `(message_id, user_id)` | 읽음 상태 조회 |
-| `unread_message_counts` | `(room_id, user_id)` | 읽지 않은 수 조회 |
+| `chat_room_participants` | `room_id`, `user_id`, `(room_id, user_id)` | 참여자 조회, 읽음 처리 |
+| `messages` | `(room_id, id)`, `content->'images'` (GIN) | 커서 기반 페이지네이션, 이미지 모아보기 |
 | `reports` | `status`, `is_auto`, `created_at` | 신고 목록 조회 |
 
 ---
