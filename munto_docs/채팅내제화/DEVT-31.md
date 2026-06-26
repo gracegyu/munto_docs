@@ -375,3 +375,50 @@ https://github.com/Munto-dev/munto-dev-assistant/pull/8/changes/8b525403293bcfef
 - 채팅 알림 설정 = **채팅 서버 소유**(발송 주체와 일치, s2s 회피), 전체 알림(앱 마스터)은 기기/앱 레벨
 - 7장 전체 전환단계 태그([V1]~[V4]) + P1~P3 재분류
 - Heartbeat 30초 통일, 리스크 관리/중복 성공 기준 정리, 깨진 교차참조 수정
+
+## comment by 전규현
+
+SRS 잘 봤습니다. 전략·단계화(V1~V4)·Sendbird 단계 제거·로컬 DB 설계 방향은 합격입니다. 다만 전략(앞쪽)은 새로 쓰였는데 7장·6장 상세·ERD·API가 그 결정과 따로 노는 **문서 간 정합성 충돌**이 여러 건 있어, 구현 착수 전 정리가 필요합니다.
+
+리뷰는 두 군데로 나눠 남겼습니다. **문서 간 정합성 충돌은 아래 Jira 코멘트로**, **개별 산출물(API/ERD/swagger) 소견은 PR 인라인 코멘트(Request changes)로** 남겼으니 **둘 다 함께 확인·수정**해 주세요.
+
+**[Jira] 문서 간 정합성 충돌 — 구현 전 닫아야 함**
+- [상] 읽음 처리 모델 정반대: SRS 7.4.2(카운터 방식·`ChatRoomMember.unreadCount`) vs ERD(`chat_room_participants.last_read_message_id`). 한쪽으로 통일 필요(테이블명도 불일치).
+- [상] 오프라인 푸시 경로 자기모순: 7.3.1/7.3.2는 "무조건 Redis Streams"인데 2.7.5·7.5.1은 "V1·V2 직접 호출 / V3~ Redis Streams"로 단계화. 7.3.1/7.3.2를 단계화 쪽으로 통일.
+- [상] client-local-db가 존재하지 않는 SRS §2.9.2를 참조(델타 동기화). 실존 섹션(2.7.5 등)으로 정정.
+- [중] `messages.id` 타입 표기: SRS 7.3.5는 SERIAL인데 ERD/로컬DB는 BIGSERIAL/BIGINT. 7.3.5를 BIGSERIAL로 정정.
+- [중] PENDING 메시지 저장소: SRS 6.1.1(SharedPreferences) vs client-local-db(SQLite `pending_messages`). 한쪽으로 통일(권장: `pending_messages`).
+- [중] 용량 수치: 6.1.3·5.2에 옛 "1만 동접" 전제가 남아 5.1 실측(PCC ~340)과 모순. 실측 기준으로 정리.
+- [중] V2+ 전제인 서버 `sync` API가 swagger에 없음(전제만 있고 인터페이스 없음). V2 태그로 추가하거나 "V2 정의 예정" 표시.
+- [중] API `LastMessage.type` enum이 `Message.type`보다 축소됨(챌린지·투표 표현 불가). enum 통일.
+- [하] 2.7.4 문구가 "단계 태깅은 후속 차수"로 남아 실제(7장 태깅 완료)와 어긋남 → 문구 갱신. (7장 태깅은 잘 돼 있습니다.)
+
+**[PR 인라인]** 보관 정책(ERD 30일 vs SRS 90일/1년), V1 필수로 적은 관리자 차단·감사 로그가 API/ERD에 누락, 메시지 정렬 방향, `messages.id` BIGINT API 미반영 등은 PR 코멘트로 위치까지 표시해 두었습니다. 특히 **보관 정책·관리자 차단**은 정책 결정이 얽혀 있어 먼저 합의하면 좋겠습니다.
+
+수정해 주시면 변경 지점 위주로 빠르게 재확인하고 마무리하겠습니다.
+
+## comment by 김범진
+
+개발팀 (@김범진 @김도연 @홍진영 @김세현 @전규현)
+
+피드백 주신 내용 토대로 SRS 수정했습니다. 6/24(수)까지 리뷰 요청드립니다.
+
+https://github.com/Munto-dev/munto-dev-assistant/pull/8/changes/2351ca7bc4a57d271d92d921e117403e74b65c31
+
+1. **신고·차단 소유권 위임 (채팅 서버 → 각 앱 백엔드)**
+- 신고/차단이 채팅을 넘어 매칭·프로필·소셜링 등 앱 전역에 영향 → 각 앱 백엔드(데이팅 `safety` / 문토 `report`) 소유로 이관
+- 채팅 서버의 `reports`·`blocks` 테이블, 관련 API·스키마 제거
+- 사용자 신고 = 클라가 앱 백엔드 직접 호출 / 자동 신고 = 웹소켓이 Kafka(`chat-auto-report-*`)로 전달
+- 차단 강제 = 이벤트 기반(방 EXPIRED, audit `FORCE_LEAVE`)
+1. **계정 제재 enforcement (7.8.4)**
+- 서비스별 제재(`user-sanction-event` Kafka) → 웹소켓 consume → denylist 캐시 + Redis Pub/Sub fanout → 연결 차단(handshake) + 접속 소켓 강제 종료
+- 핫패스는 로컬 캐시(네트워크 0), 무효화형 캐시 + 부팅 스냅샷·주기 reconciliation
+1. **이벤트 인프라 정리**
+- 크로스 서비스 = **Kafka(MSK)**, 채팅 내부 = **Redis**(Pub/Sub=V1 상시 / Streams=V3+ 그룹푸시)로 역할 분리
+- Kafka 이벤트 명세서(`kafka-events.md`) 신설
+1. **채팅 서버 REST/WebSocket 별도 배포 분리** (직접 호출 없이 PG/Redis/Kafka 공유, 독립 확장)
+2. **기타**
+- 이미지 모더레이션 V1 미포함(TBD) / JWT 식별 필드 `userId`로 통일(WEBB-1196 정렬, 표준 sub 아님) / messages.id number 전송 명시
+- 링크 경로·2.4↔7장 명칭·마크다운 오류 등 리뷰 지적 반영
+
+변경 문서: `srs.md`, `erd.md`, `swagger.yaml`, `socket-events.md`, `kafka-events.md`(신규), `client-architecture.md`(신규)
